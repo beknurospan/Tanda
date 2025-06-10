@@ -1,3 +1,4 @@
+import org.gradle.internal.impldep.org.bouncycastle.asn1.x500.style.RFC4519Style.l
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -49,8 +50,6 @@ gradlePlugin {
 		}
 		register("androidLibrary") {
 			id = "com.beknur.library"
-
-
 			implementationClass = "AndroidLibraryConventionPlugin"
 		}
 		register("androidFeature") {
@@ -61,8 +60,8 @@ gradlePlugin {
 			id =libs.plugins.com.beknur.jvmLibrary.get().pluginId
 			implementationClass = "JvmLibraryConventionPlugin"
 		}
-		register("sqlDelight"){
-			id=libs.plugins.com.beknur.sdlDelight.get().pluginId
+		register("sql"){
+			id= libs.plugins.com.beknur.sql.get().pluginId
 			implementationClass = "SqlDelightConventionPlugin"
 		}
 		register("koin"){

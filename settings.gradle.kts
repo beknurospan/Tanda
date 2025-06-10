@@ -25,3 +25,4 @@ rootProject.name = "Sausaq"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
 
+include(":feature:home")

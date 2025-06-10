@@ -9,6 +9,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 		with(target) {
 			apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 			apply(plugin = "com.beknur.koin")
+			apply(plugin="com.beknur.sql")
 			apply(plugin = "com.beknur.library")
 
 			dependencies {
