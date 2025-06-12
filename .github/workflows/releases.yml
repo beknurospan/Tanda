@@ -1,8 +1,7 @@
 name: Deploy To Google Play
 
 on:
-  push:
-    branches: [master]
+  workflow_dispatch:
 
 jobs:
   test:
@@ -40,11 +39,12 @@ jobs:
           java-version: 17
           cache: 'gradle'
 
-      - name: Version Bump
+      - name: Version Bump (code + name)
         uses: chkfung/android-version-actions@v1.2.3
         with:
           gradlePath: app/build.gradle.kts
           versionCode: ${{ github.run_number }}
+          versionName: 1.0.${{ github.run_number }}
 
       - name: Assemble Release Bundle
         run: ./gradlew bundleRelease
@@ -69,4 +69,3 @@ jobs:
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: 'internal'
           status: 'completed'
-          whatsNewDirectory: whatsNew/
