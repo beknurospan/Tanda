@@ -7,4 +7,18 @@ plugins {
 	alias(libs.plugins.kotlin.serialization) apply false
 	alias(libs.plugins.sqlDelight) apply false
 	alias(libs.plugins.detekt) apply false
+
 }
+tasks.register("detektAll") {
+	group = "verification"
+	description = "Runs detekt on all subprojects"
+
+	dependsOn(
+		subprojects.mapNotNull { subproject ->
+			subproject.tasks.findByName("detekt")
+		}
+	)
+}
+
+
+
