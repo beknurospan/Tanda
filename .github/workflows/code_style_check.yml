@@ -30,6 +30,8 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
       - name: Run Detekt for all modules
         run: ./gradlew detektAll --no-daemon
