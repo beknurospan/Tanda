@@ -1,8 +1,9 @@
-import org.gradle.internal.impldep.org.bouncycastle.asn1.x500.style.RFC4519Style.l
+
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
 	`kotlin-dsl`
+	alias(libs.plugins.detekt)
 }
 
 
@@ -19,7 +20,7 @@ kotlin {
 }
 
 dependencies {
-
+	implementation(libs.detekt.gradle.plugin)
 	compileOnly(libs.android.gradlePlugin)
 	compileOnly(libs.android.tools.common)
 	compileOnly(libs.compose.gradlePlugin)
@@ -68,7 +69,10 @@ gradlePlugin {
 			id=libs.plugins.com.beknur.koin.get().pluginId
 			implementationClass = "KoinConventionPlugin"
 		}
-
+		register("detektConvention") {
+			id = libs.plugins.com.beknur.detekt.get().pluginId
+			implementationClass = "DetektConventionPlugin"
+		}
 
 
 	}
