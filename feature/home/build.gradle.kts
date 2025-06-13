@@ -3,6 +3,7 @@ plugins {
 	alias(libs.plugins.com.beknur.sql)
 
 
+
 }
 
 android {
