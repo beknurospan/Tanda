@@ -1,5 +1,6 @@
 [versions]
 agp = "8.10.1"
+detektGradlePlugin = "1.23.6"
 gradle = "8.4.2"
 
 coreKtx = "1.16.0"
@@ -77,9 +78,10 @@ room = "2.7.1"
 secrets = "2.0.1"
 truth = "1.4.4"
 turbine = "1.2.0"
-
+detektVersion="1.23.6"
 [libraries]
-
+detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detektVersion" }
+detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detektVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -92,7 +94,6 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-
 
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
 android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
@@ -202,6 +203,8 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 
 [plugins]
+detekt= { id = "io.gitlab.arturbosch.detekt", version.ref="detektVersion"}
+
 
 android-lint = { id = "com.android.lint", version.ref = "androidGradlePlugin" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
@@ -233,6 +236,7 @@ com-beknur-koin={id="com.beknur.koin"}
 com-beknur-sql={id="com.beknur.sql"}
 com-beknur-jvmLibrary={id="com.beknur.jvmLibrary"}
 com-beknur-feature={id="com.beknur.feature"}
+com-beknur-detekt={id="com.beknur.detekt"}
 sqlDelight={id="com.squareup.sqldelight",version.ref="sqldelight"}
 
 
