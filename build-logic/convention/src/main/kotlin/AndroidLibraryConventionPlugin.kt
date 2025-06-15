@@ -15,7 +15,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 			apply(plugin = "com.beknur.detekt")
 			extensions.configure<LibraryExtension> {
 				configureKotlinAndroid(this)
-				defaultConfig.targetSdk = 35
+				defaultConfig.targetSdk = 36
 
 				resourcePrefix =
 					path.split("""\W""".toRegex()).drop(1).distinct().joinToString(separator = "_")

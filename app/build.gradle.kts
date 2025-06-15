@@ -6,12 +6,12 @@ plugins {
 
 android {
 	namespace = "com.beknur.sausaq"
-	compileSdk = 35
+	compileSdk = 36
 
 	defaultConfig {
 		applicationId = "com.beknur.sausaq"
 		minSdk = 28
-		targetSdk = 35
+		targetSdk = 36
 		versionCode = 1
 		versionName = "1.0"
 

@@ -9,15 +9,20 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 		with(target) {
 			apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 			apply(plugin = "com.beknur.koin")
-			apply(plugin="com.beknur.sql")
 			apply(plugin = "com.beknur.library")
 
 			dependencies {
 				"implementation"(libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
 				"implementation"(libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
-				"implementation"(libs.findLibrary("androidx.navigation.compose").get())
+
 				"implementation"(libs.findLibrary("androidx.tracing.ktx").get())
 				"implementation"(libs.findLibrary("kotlinx.serialization.json").get())
+
+				"implementation"(libs.findLibrary("navigation3.ui").get())
+				"implementation"(libs.findLibrary("navigation3.runtime").get())
+				"implementation"(libs.findLibrary("lifecycle.viewmodel.navigation3").get())
+				"implementation"(libs.findLibrary("material3.adaptive.navigation3").get())
+				"implementation"(libs.findLibrary("serialization.core").get())
 
 				"testImplementation"(libs.findLibrary("androidx.navigation.testing").get())
 				"androidTestImplementation"(
