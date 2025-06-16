@@ -8,8 +8,10 @@ pluginManagement {
 				includeGroupByRegex("androidx.*")
 			}
 		}
-		mavenCentral()
 		gradlePluginPortal()
+		mavenCentral()
+		maven { url = uri("https://mvnrepository.com/artifact/androidx.navigation3/navigation3-ui-android")}
+
 	}
 }
 dependencyResolutionManagement {

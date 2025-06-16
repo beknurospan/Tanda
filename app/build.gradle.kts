@@ -1,7 +1,9 @@
 plugins {
-	alias(libs.plugins.android.application)
+	alias(libs.plugins.com.beknur.application)
+	alias(libs.plugins.com.beknur.application.compose)
 	alias(libs.plugins.kotlin.android)
 	alias(libs.plugins.kotlin.compose)
+	alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -42,6 +44,12 @@ android {
 }
 
 dependencies {
+	implementation(libs.navigation3.ui)
+	implementation(libs.navigation3.runtime)
+	implementation(libs.lifecycle.viewmodel.navigation3)
+
+	implementation(libs.serialization.core)
+	implementation(project(":core:designsystem"))
 
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -58,4 +66,6 @@ dependencies {
 	androidTestImplementation(libs.androidx.ui.test.junit4)
 	debugImplementation(libs.androidx.ui.tooling)
 	debugImplementation(libs.androidx.ui.test.manifest)
+	implementation(libs.androidx.material.icons.extended)
+
 }
