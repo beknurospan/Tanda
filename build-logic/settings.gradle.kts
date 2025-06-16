@@ -15,6 +15,7 @@ dependencyResolutionManagement {
 			}
 		}
 		mavenCentral()
+
 	}
 	versionCatalogs {
 		create("libs") {

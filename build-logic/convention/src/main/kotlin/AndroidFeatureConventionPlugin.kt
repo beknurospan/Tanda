@@ -21,7 +21,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 				"implementation"(libs.findLibrary("navigation3.ui").get())
 				"implementation"(libs.findLibrary("navigation3.runtime").get())
 				"implementation"(libs.findLibrary("lifecycle.viewmodel.navigation3").get())
-				"implementation"(libs.findLibrary("material3.adaptive.navigation3").get())
+
 				"implementation"(libs.findLibrary("serialization.core").get())
 
 				"testImplementation"(libs.findLibrary("androidx.navigation.testing").get())

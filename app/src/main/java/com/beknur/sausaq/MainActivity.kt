@@ -4,28 +4,36 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.beknur.sausaq.ui.theme.SausaqTheme
+
 
 class MainActivity : ComponentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		enableEdgeToEdge()
 		setContent {
-			SausaqTheme {
-				Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-					Greeting(
-						name = "Android",
-						modifier = Modifier.padding(innerPadding)
-					)
-				}
+
+			Scaffold(
+				modifier = Modifier
+					.fillMaxSize()
+					.background(color = Color.White)
+			) { innerPadding ->
+				Greeting(
+					name = "Android",
+					modifier = Modifier
+						.padding(innerPadding)
+						.background(color = Color.White)
+				)
 			}
+
 		}
 	}
 }
@@ -41,7 +49,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-	SausaqTheme {
+
 		Greeting("Android")
-	}
+
 }
