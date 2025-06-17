@@ -31,10 +31,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import com.beknur.sausaq.navigation.BasketGraph
 import com.beknur.sausaq.navigation.BottomBarScreen
 import com.beknur.sausaq.navigation.BottomBarScreenSaver
+import com.beknur.sausaq.navigation.HomeGraph
+
+import com.beknur.sausaq.navigation.Screen
 import com.beknur.sausaq.navigation.bottomBarItems
 
 
@@ -44,25 +49,46 @@ import com.beknur.sausaq.navigation.bottomBarItems
 @Composable
 fun SausaqApp() {
 
-	val backStack = rememberNavBackStack<BottomBarScreen>(BottomBarScreen.Home)
 
-	var currentDestination:BottomBarScreen by rememberSaveable(
-		stateSaver= BottomBarScreenSaver
-	) { mutableStateOf(BottomBarScreen.Home) }
+	var currentDestination: BottomBarScreen by rememberSaveable(
+		stateSaver = BottomBarScreenSaver
+	) { mutableStateOf(BottomBarScreen.Catalog) }
+
+	Log.d("recomp","rec")
+	val backStackHome= rememberNavBackStack(BottomBarScreen.Home)
+	val backStackLogin= rememberNavBackStack(BottomBarScreen.Login)
+	val backStackCatalog= rememberNavBackStack(BottomBarScreen.Catalog)
+	val backStackBasket= rememberNavBackStack(Screen.Auth)
+	val backStackFav= rememberNavBackStack(BottomBarScreen.Favorites)
+
+	val backStacks= mapOf(
+		BottomBarScreen.Home to backStackHome,
+		BottomBarScreen.Login to backStackLogin,
+		BottomBarScreen.Catalog to backStackCatalog,
+		BottomBarScreen.Basket to backStackBasket,
+		BottomBarScreen.Favorites to backStackFav
+	)
+
 
 	Scaffold(
+
 		bottomBar = {
 
 			NavigationBar {
+
 				bottomBarItems.forEach { destination ->
 					NavigationBarItem(
 
-						selected = currentDestination==destination,
-						onClick = { currentDestination=destination},
+						selected = currentDestination == destination,
+						onClick = { currentDestination = destination },
 
-						icon = { Icon( painter = painterResource(destination.icon)
-							,"" )},
-						label = { Text(text=destination.title, fontSize = 10.sp, maxLines = 1) },
+
+						icon = {
+							Icon(
+								painter = painterResource(destination.icon), ""
+							)
+						},
+						label = { Text(text = destination.title, fontSize = 10.sp, maxLines = 1) },
 						colors = NavigationBarItemDefaults.colors(
 							indicatorColor = Color.Transparent,
 							selectedIconColor = Color.Green,
@@ -70,12 +96,23 @@ fun SausaqApp() {
 							selectedTextColor = Color.Green,
 							unselectedTextColor = Color.Black
 						),
-
-
 					)
 				}
 			}
-		}) {
+		}
+	) {
+		Log.d("scfld","rec")
+		val backStack=backStacks[currentDestination]!!
+
+		when(currentDestination){
+			is BottomBarScreen.Home -> HomeGraph(backStack)
+			is BottomBarScreen.Basket -> BasketGraph(backStack)
+			is BottomBarScreen.Catalog -> HomeGraph(backStack)
+			is BottomBarScreen.Favorites -> HomeGraph(backStack)
+			is BottomBarScreen.Login -> HomeGraph(backStack)
+		}
+
+
 
 	}
 

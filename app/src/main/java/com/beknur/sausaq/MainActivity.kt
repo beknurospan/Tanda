@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.beknur.sausaq.ui.SausaqApp
 
 
 class MainActivity : ComponentActivity() {
@@ -21,18 +22,7 @@ class MainActivity : ComponentActivity() {
 		enableEdgeToEdge()
 		setContent {
 
-			Scaffold(
-				modifier = Modifier
-					.fillMaxSize()
-					.background(color = Color.White)
-			) { innerPadding ->
-				Greeting(
-					name = "Android",
-					modifier = Modifier
-						.padding(innerPadding)
-						.background(color = Color.White)
-				)
-			}
+			SausaqApp()
 
 		}
 	}
