@@ -12,9 +12,9 @@ import kotlinx.serialization.Serializable
 val bottomBarItems= listOf<BottomBarScreen>(
 	BottomBarScreen.Home,
 	BottomBarScreen.Catalog,
-	BottomBarScreen.Basket,
+	BottomBarScreen.Cart,
 	BottomBarScreen.Favorites,
-	BottomBarScreen.Login,
+	BottomBarScreen.Profile,
 )
 
 @Serializable
@@ -30,7 +30,7 @@ sealed class BottomBarScreen(
 	)
 
 	@Serializable
-	data object Basket:BottomBarScreen(
+	data object Cart:BottomBarScreen(
 		icon = coreR.drawable.shopicons_light_cart3,
 		title = "Корзина"
 	)
@@ -47,7 +47,7 @@ sealed class BottomBarScreen(
 		title = "Каталог"
 	)
 	@Serializable
-	data object Login:BottomBarScreen(
+	data object Profile:BottomBarScreen(
 		icon = coreR.drawable.s3,
 		title = "Профиль"
 	)
@@ -61,8 +61,8 @@ val BottomBarScreenSaver = Saver<BottomBarScreen, String>(
 		when (it) {
 			BottomBarScreen.Home::class.simpleName -> BottomBarScreen.Home
 			BottomBarScreen.Catalog::class.simpleName -> BottomBarScreen.Catalog
-			BottomBarScreen.Login::class.simpleName -> BottomBarScreen.Login
-			BottomBarScreen.Basket::class.simpleName -> BottomBarScreen.Basket
+			BottomBarScreen.Profile::class.simpleName -> BottomBarScreen.Profile
+			BottomBarScreen.Cart::class.simpleName -> BottomBarScreen.Cart
 			BottomBarScreen.Favorites::class.simpleName -> BottomBarScreen.Favorites
 			else -> BottomBarScreen.Home
 		}
