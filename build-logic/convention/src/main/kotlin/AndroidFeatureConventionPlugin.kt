@@ -17,7 +17,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 
 				"implementation"(libs.findLibrary("androidx.tracing.ktx").get())
 				"implementation"(libs.findLibrary("kotlinx.serialization.json").get())
-
+				"implementation"(project(":core:designsystem"))
 				"implementation"(libs.findLibrary("navigation3.ui").get())
 				"implementation"(libs.findLibrary("navigation3.runtime").get())
 				"implementation"(libs.findLibrary("lifecycle.viewmodel.navigation3").get())

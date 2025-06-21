@@ -12,27 +12,16 @@ import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
-import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+
 import kotlinx.serialization.Serializable
-import java.util.Map.entry
 
 
-@Serializable
-sealed class Screen: NavKey {
-	@Serializable
-	data object Auth : Screen()
 
-	@Serializable
-	data object NestedGraph : Screen()
-
-	@Serializable
-	data object Settings : Screen()
-}
 
 @Composable
-fun BasketGraph(backStack:NavBackStack){
+fun CartGraph(backStack:NavBackStack){
 	NavDisplay(
 
 		backStack =backStack ,
@@ -41,27 +30,27 @@ fun BasketGraph(backStack:NavBackStack){
 			rememberViewModelStoreNavEntryDecorator()
 		),
 		entryProvider = entryProvider {
-			entry<Screen.Auth>{
+			entry<Screen.Cart>{
 				Box(
 					modifier = Modifier.fillMaxSize(),
 					contentAlignment = Alignment.Center
 				) {
-					Button(onClick = { backStack.add(Screen.Settings) }) {
-						Text(text = "Settins")
+					Button(onClick = { backStack.add(Screen.ProductDetail) }) {
+						Text(text = "Detail")
 					}
 				}
 			}
-			entry<Screen.Settings>{
+			entry<Screen.ProductDetail>{
 				Box(
 					modifier = Modifier.fillMaxSize(),
 					contentAlignment = Alignment.Center
 				) {
-					Button(onClick = { backStack.add(Screen.NestedGraph) }) {
-						Text(text = "Nested")
+					Button(onClick = { backStack.add(Screen.Checkout) }) {
+						Text(text = "Checkout")
 					}
 				}
 			}
-			entry<Screen.NestedGraph>{
+			entry<Screen.Checkout>{
 				Text("dadfg")
 			}
 

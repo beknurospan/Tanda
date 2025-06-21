@@ -2,15 +2,7 @@ package com.beknur.sausaq.ui
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
+
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -34,12 +26,18 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import com.beknur.sausaq.navigation.BasketGraph
+
+
 import com.beknur.sausaq.navigation.BottomBarScreen
 import com.beknur.sausaq.navigation.BottomBarScreenSaver
+import com.beknur.sausaq.navigation.CartGraph
+import com.beknur.sausaq.navigation.CatalogGraph
+import com.beknur.sausaq.navigation.FavoriteGraph
 import com.beknur.sausaq.navigation.HomeGraph
-
+import com.beknur.sausaq.navigation.ProfileGraph
 import com.beknur.sausaq.navigation.Screen
+
+
 import com.beknur.sausaq.navigation.bottomBarItems
 
 
@@ -54,20 +52,12 @@ fun SausaqApp() {
 		stateSaver = BottomBarScreenSaver
 	) { mutableStateOf(BottomBarScreen.Catalog) }
 
-	Log.d("recomp","rec")
-	val backStackHome= rememberNavBackStack(BottomBarScreen.Home)
-	val backStackLogin= rememberNavBackStack(BottomBarScreen.Login)
-	val backStackCatalog= rememberNavBackStack(BottomBarScreen.Catalog)
-	val backStackBasket= rememberNavBackStack(Screen.Auth)
-	val backStackFav= rememberNavBackStack(BottomBarScreen.Favorites)
-
-	val backStacks= mapOf(
-		BottomBarScreen.Home to backStackHome,
-		BottomBarScreen.Login to backStackLogin,
-		BottomBarScreen.Catalog to backStackCatalog,
-		BottomBarScreen.Basket to backStackBasket,
-		BottomBarScreen.Favorites to backStackFav
-	)
+	Log.d("recomp", "rec")
+	val backStackHome = rememberNavBackStack(Screen.Home)
+	val backStackProfile = rememberNavBackStack(Screen.Profile)
+	val backStackCatalog = rememberNavBackStack(Screen.Catalog)
+	val backStackCart = rememberNavBackStack(Screen.Cart)
+	val backStackFav = rememberNavBackStack(Screen.Favorites)
 
 
 	Scaffold(
@@ -101,17 +91,16 @@ fun SausaqApp() {
 			}
 		}
 	) {
-		Log.d("scfld","rec")
-		val backStack=backStacks[currentDestination]!!
+		Log.d("scfld", "rec")
 
-		when(currentDestination){
-			is BottomBarScreen.Home -> HomeGraph(backStack)
-			is BottomBarScreen.Basket -> BasketGraph(backStack)
-			is BottomBarScreen.Catalog -> HomeGraph(backStack)
-			is BottomBarScreen.Favorites -> HomeGraph(backStack)
-			is BottomBarScreen.Login -> HomeGraph(backStack)
+
+		when (currentDestination) {
+			is BottomBarScreen.Home -> HomeGraph(backStackHome)
+			is BottomBarScreen.Cart -> CartGraph(backStackCart)
+			is BottomBarScreen.Catalog -> CatalogGraph(backStackCatalog)
+			is BottomBarScreen.Favorites -> FavoriteGraph(backStackFav)
+			is BottomBarScreen.Profile -> ProfileGraph(backStackProfile)
 		}
-
 
 
 	}
