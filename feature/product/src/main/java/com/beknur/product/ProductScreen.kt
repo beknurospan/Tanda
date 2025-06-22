@@ -25,6 +25,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
@@ -131,7 +132,7 @@ fun TopField(text: String) {
 				Box(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(210.dp)
+						.aspectRatio(3f / 4f)
 						.shadow(
 							elevation = 1.dp, // ← тень здесь
 							shape = RoundedCornerShape(2.dp), // для лучшего эффекта
@@ -143,7 +144,7 @@ fun TopField(text: String) {
 					,
 					contentAlignment = Alignment.Center,
 				) {
-					Image(painter = painterResource(coreR.drawable.image), contentDescription = "", modifier = Modifier.size(150.dp))
+
 				}
 				Text("Brand")
 				Text("Имя Товара")
