@@ -2,6 +2,8 @@ package com.beknur.sausaq.ui
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.systemBars
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon

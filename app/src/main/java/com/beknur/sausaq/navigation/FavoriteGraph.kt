@@ -13,6 +13,7 @@ import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.beknur.favorites.FavoritesScreen
 import com.beknur.product.ProductScreen
 
 @Composable
@@ -26,7 +27,7 @@ fun FavoriteGraph(backStack: NavBackStack){
 		),
 		entryProvider = entryProvider {
 			entry<Screen.Favorites>{
-				ProductScreen("Недопустимый товар")
+				FavoritesScreen()
 			}
 			entry<Screen.ProductDetail>{
 				Box(

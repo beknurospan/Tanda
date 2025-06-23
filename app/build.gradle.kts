@@ -69,4 +69,5 @@ dependencies {
 	implementation(libs.androidx.material.icons.extended)
 	implementation(project(":feature:catalog"))
 	implementation(project(":feature:product"))
+	implementation(project(":feature:favorites"))
 }
