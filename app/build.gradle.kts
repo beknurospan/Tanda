@@ -70,4 +70,5 @@ dependencies {
 	implementation(project(":feature:catalog"))
 	implementation(project(":feature:product"))
 	implementation(project(":feature:favorites"))
+	implementation(project(":feature:cart"))
 }

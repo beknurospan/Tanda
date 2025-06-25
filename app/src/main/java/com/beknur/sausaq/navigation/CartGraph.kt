@@ -14,6 +14,7 @@ import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.beknur.cart.CartScreen
 
 import kotlinx.serialization.Serializable
 
@@ -31,14 +32,7 @@ fun CartGraph(backStack:NavBackStack){
 		),
 		entryProvider = entryProvider {
 			entry<Screen.Cart>{
-				Box(
-					modifier = Modifier.fillMaxSize(),
-					contentAlignment = Alignment.Center
-				) {
-					Button(onClick = { backStack.add(Screen.ProductDetail) }) {
-						Text(text = "Detail")
-					}
-				}
+				CartScreen()
 			}
 			entry<Screen.ProductDetail>{
 				Box(
