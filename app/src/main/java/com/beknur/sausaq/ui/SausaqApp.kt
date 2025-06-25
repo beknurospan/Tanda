@@ -2,8 +2,19 @@ package com.beknur.sausaq.ui
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -92,20 +103,37 @@ fun SausaqApp() {
 				}
 			}
 		}
-	) {
-		Log.d("scfld", "rec")
+	) { innerPadding ->
+
+		Box(
+			modifier = Modifier
+				.fillMaxSize()
+				.padding(innerPadding)
+		) {
+
+			when (currentDestination) {
+				is BottomBarScreen.Home -> HomeGraph(backStackHome)
+				is BottomBarScreen.Cart -> CartGraph(backStackCart)
+				is BottomBarScreen.Catalog -> CatalogGraph(backStackCatalog)
+				is BottomBarScreen.Favorites -> FavoriteGraph(backStackFav)
+				is BottomBarScreen.Profile -> ProfileGraph(backStackProfile)
+			}
 
 
-		when (currentDestination) {
-			is BottomBarScreen.Home -> HomeGraph(backStackHome)
-			is BottomBarScreen.Cart -> CartGraph(backStackCart)
-			is BottomBarScreen.Catalog -> CatalogGraph(backStackCatalog)
-			is BottomBarScreen.Favorites -> FavoriteGraph(backStackFav)
-			is BottomBarScreen.Profile -> ProfileGraph(backStackProfile)
+
+
+
+
 		}
 
 
 	}
-
-
 }
+
+
+
+
+
+
+
+
