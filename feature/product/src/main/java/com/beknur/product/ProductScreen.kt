@@ -148,8 +148,7 @@ fun TopField(text: String) {
 				}
 				Text("Brand")
 				Text("Имя Товара")
-				Row(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(4.dp)).height(30.dp).background(
-					Color.Green), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Absolute.Center){
+				Row(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(4.dp)).height(30.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Absolute.Center){
 					Text("30 000 ", fontWeight = FontWeight.Bold)
 					Icon(modifier = Modifier.size(10.dp), imageVector = ImageVector.vectorResource(coreR.drawable.tenge_svgrepo_com), contentDescription = "")
 				}

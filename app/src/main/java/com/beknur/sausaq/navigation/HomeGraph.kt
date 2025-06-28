@@ -13,6 +13,7 @@ import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.beknur.productdetail.ProductDetailScreen
 
 
 @Composable
@@ -26,14 +27,11 @@ fun HomeGraph(backStack: NavBackStack){
 		),
 		entryProvider = entryProvider {
 			entry<Screen.Home>{
-				Box(
-					modifier = Modifier.fillMaxSize(),
-					contentAlignment = Alignment.Center
-				) {
-					Button(onClick = { backStack.add(Screen.Search) }) {
-						Text(text = "Search")
-					}
-				}
+				ProductDetailScreen(		listOf(
+					"https://streams.frend.dev/image/v1?url=https%3A%2F%2Fvikingfootwear.centracdn.net%2Fclient%2Fdynamic%2Fimages%2F1486_91ebd57e2f-3-55650-305-b-1350x0.jpg&width=1200&quality=80",
+					"https://streams.frend.dev/image/v1?url=https%3A%2F%2Fvikingfootwear.centracdn.net%2Fclient%2Fdynamic%2Fimages%2F1486_91ebd57e2f-3-55650-305-b-1350x0.jpg&width=1200&quality=80",
+					"https://streams.frend.dev/image/v1?url=https%3A%2F%2Fvikingfootwear.centracdn.net%2Fclient%2Fdynamic%2Fimages%2F1486_91ebd57e2f-3-55650-305-b-1350x0.jpg&width=1200&quality=80"
+				))
 			}
 			entry<Screen.Search>{
 				Box(
