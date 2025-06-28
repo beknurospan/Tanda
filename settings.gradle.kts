@@ -49,3 +49,5 @@ include(":feature:address")
 include(":feature:notifications")
 include(":feature:payment")
 
+include(":feature:support")
+include(":feature:productdetail")

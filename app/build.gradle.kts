@@ -71,4 +71,7 @@ dependencies {
 	implementation(project(":feature:product"))
 	implementation(project(":feature:favorites"))
 	implementation(project(":feature:cart"))
+	implementation(project(":feature:auth"))
+	implementation(project(":feature:profile"))
+	implementation(project(":feature:productdetail"))
 }
