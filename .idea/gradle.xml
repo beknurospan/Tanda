@@ -49,6 +49,7 @@
             <option value="$PROJECT_DIR$/feature/productdetail" />
             <option value="$PROJECT_DIR$/feature/profile" />
             <option value="$PROJECT_DIR$/feature/search" />
+            <option value="$PROJECT_DIR$/feature/support" />
           </set>
         </option>
       </GradleProjectSettings>
