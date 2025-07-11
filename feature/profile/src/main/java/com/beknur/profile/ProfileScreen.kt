@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import com.beknur.designsystem.R as coreR
 import com.beknur.designsystem.theme.Gray
 import com.beknur.designsystem.theme.Green
+import com.beknur.profile.composables.ProfileDataItem
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,10 +57,9 @@ fun ProfileScreen() {
 		verticalArrangement = Arrangement.spacedBy(15.dp)
 	) {
 		TopAppBar(
-			title = { Text("Профиль") },
-		)
 
-		UnauthorizedScreen()
+			title = { ProfileDataItem() },
+		)
 		ProfileItem(coreR.drawable.shopicons_regular_clock, "Мои заказы")
 		ProfileItem(coreR.drawable.shopicons_regular_creditcard, "Карты")
 		ProfileItem(coreR.drawable.location_on, "Адрес")
