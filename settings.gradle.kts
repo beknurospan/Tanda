@@ -54,3 +54,4 @@ include(":feature:support")
 include(":feature:productdetail")
 
 
+include(":feature:profiledata")

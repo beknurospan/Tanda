@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-	namespace = "com.beknur.notifications"
+	namespace = "com.beknur.profiledata"
 }
 
 dependencies {
