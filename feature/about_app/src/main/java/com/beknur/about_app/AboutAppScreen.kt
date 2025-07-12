@@ -1,18 +1,17 @@
-package com.beknur.address
+package com.beknur.about_app
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 
 
-@Preview
 @Composable
-fun AddressScreenPreview(){
-	AddressScreen()
+fun AboutAppScreen(){
+
 }
 
 
-
+@Preview
 @Composable
-fun AddressScreen(){
+fun AboutAppScreenPreview(){
 
 }

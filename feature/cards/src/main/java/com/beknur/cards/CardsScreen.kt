@@ -1,4 +1,4 @@
-package com.beknur.address
+package com.beknur.cards
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -6,13 +6,6 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Preview
 @Composable
-fun AddressScreenPreview(){
-	AddressScreen()
-}
-
-
-
-@Composable
-fun AddressScreen(){
+fun CardsScreen(){
 
 }

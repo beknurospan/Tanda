@@ -2,8 +2,8 @@ package com.beknur.catalog
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 
@@ -17,12 +17,12 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SearchBar
 
 import androidx.compose.material3.Text
 
@@ -37,38 +37,49 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
-import com.beknur.designsystem.theme.Green
 
 
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
+import com.beknur.catalog.data.ProductCategory
+import com.beknur.catalog.data.ProductCategoryInfo
 import com.beknur.designsystem.theme.Gray
 import com.beknur.designsystem.theme.GreenDark
 
 
 @Composable
 fun CatalogScreen(onClick: () -> Unit) {
-
-
+	var selectedIndex by remember { mutableStateOf(0) }
+	val options = listOf("мужчины", "женщины", "дети")
+	val categories= ProductCategoryInfo.categoriesMen
 	Column(
 		Modifier
 			.fillMaxSize()
-			.background(Color.White),
+			.background(Color.White)
+			.padding(horizontal = 30.dp)
+		,
 		horizontalAlignment = Alignment.CenterHorizontally
 	) {
 		Spacer(modifier = Modifier.height(12.dp))
-		SearchBarPlaceholder(onClick = onClick)
-		Bar()
+		SearchBarPlaceholder(onClick = { CatalogUiEvent.OnSearchClick })
+		AnimatedSegmentedControl(
+			options = options,
+			selectedIndex = selectedIndex,
+			onSelectedChange = { CatalogUiEvent.OnGenderChanged(it) }
+		)
 		Spacer(modifier = Modifier.height(24.dp))
-		LazyColumn () {
-			items(15) {
-				ProductIcon("товар")
-			}
+		LazyColumn(
+			verticalArrangement = Arrangement.spacedBy(10.dp)) {
+				items(categories) { category ->
+					ProductIcon(
+						category.name,
+						onClick = {CatalogUiEvent.OnProductCategoryClick(category.name,
+							category.gender.code
+						)}
+					)
+				}
 
-		}
+			}
 
 	}
 }
@@ -93,10 +104,9 @@ fun SearchBarPlaceholder(onClick: () -> Unit) {
 			modifier = Modifier
 				.fillMaxWidth()
 				.height(36.dp)
-				.padding(horizontal = 36.dp)
 				.clip(RoundedCornerShape(10.dp))
 				.background(MaterialTheme.colorScheme.surfaceVariant)
-				.clickable { onClick() },
+				.clickable { onClick.invoke() },
 			verticalAlignment = Alignment.CenterVertically
 
 
@@ -122,21 +132,23 @@ fun AnimatedSegmentedControl(
 	options: List<String>,
 	selectedIndex: Int,
 	onSelectedChange: (Int) -> Unit,
-	maxWidth: Dp
+	modifier: Modifier = Modifier
 ) {
-	val segmentWidth = (maxWidth-72.dp) / options.size
+	val screenWidthDp = LocalConfiguration.current.screenWidthDp.dp
+	val segmentWidth = screenWidthDp / options.size
 	val indicatorOffset by animateDpAsState(targetValue = segmentWidth * selectedIndex)
 
 	Box(
-		modifier = Modifier
+		modifier = modifier
 			.fillMaxWidth()
-			.padding(horizontal = 36.dp)
-			.clip(RoundedCornerShape(14.dp))
+			.height(36.dp)
 			.background(Gray)
-			.height(36.dp),
+			.clip(
+				RoundedCornerShape(4.dp)
+			),
 		contentAlignment = Alignment.CenterStart
 	) {
-		// Анимируемый зелёный индикатор
+
 		Box(
 			modifier = Modifier
 				.offset(x = indicatorOffset)
@@ -145,9 +157,6 @@ fun AnimatedSegmentedControl(
 				.shadow(6.dp, shape = RoundedCornerShape(14.dp))
 				.clip(RoundedCornerShape(14.dp))
 				.background(GreenDark)
-
-
-
 
 		)
 
@@ -170,25 +179,11 @@ fun AnimatedSegmentedControl(
 	}
 }
 
-@Composable
-fun Bar() {
-	var selectedIndex by remember { mutableStateOf(0) }
-	val options = listOf("мужчины", "женщины", "дети")
-	val configuration = LocalConfiguration.current
-	val screenWidthDp = configuration.screenWidthDp.dp
-	AnimatedSegmentedControl(
-		options = options,
-		selectedIndex = selectedIndex,
-		onSelectedChange = { selectedIndex = it },
-		screenWidthDp
-	)
-}
 
-@Preview
 @Composable
-fun ProductIcon(text:String) {
+fun ProductIcon(text: String, onClick: () -> Unit) {
 
-	Row (modifier = Modifier.fillMaxWidth().padding(horizontal = 36.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically){
+	Row(modifier = Modifier.fillMaxWidth().clickable { onClick.invoke() }, verticalAlignment = Alignment.CenterVertically) {
 		Box(
 			modifier = Modifier
 				.width(44.dp)
@@ -203,8 +198,6 @@ fun ProductIcon(text:String) {
 		Text(text, modifier = Modifier.padding(horizontal = 12.dp))
 
 	}
-
-
 
 
 }

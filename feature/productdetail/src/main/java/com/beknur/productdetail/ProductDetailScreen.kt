@@ -37,7 +37,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.beknur.productdetail.composables.SizeBox
 import com.beknur.designsystem.R as coreR
 import com.beknur.designsystem.ui.TndButton
 import com.beknur.productdetail.composables.AboutBrand
@@ -46,9 +45,17 @@ import com.beknur.productdetail.composables.CardWhite
 import com.beknur.productdetail.composables.ReviewsItem
 import com.beknur.productdetail.data.ItemInfo
 
+
+@Composable
+fun ProductDetailRoute(){
+	
+
+}
+
+
 @Composable
 fun ProductDetailScreen(
-	photoList: List<String>
+	photoList: List<String>,
 ) {
 
 	Column(

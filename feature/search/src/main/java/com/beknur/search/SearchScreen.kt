@@ -1,18 +1,17 @@
-package com.beknur.address
+package com.beknur.search
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 
-
 @Preview
 @Composable
-fun AddressScreenPreview(){
-	AddressScreen()
+fun SearchScreen(){
+
 }
 
 
-
+@Preview
 @Composable
-fun AddressScreen(){
-
+fun SearchScreenPreivew(){
+	SearchScreen()
 }

@@ -37,6 +37,7 @@ include(":core:common")
 include(":core:designsystem")
 include(":core:model")
 include(":core:ui")
+include(":core:navigation")
 include(":feature:catalog")
 include(":feature:product")
 include(":feature:search")
@@ -55,3 +56,6 @@ include(":feature:productdetail")
 
 
 include(":feature:profiledata")
+
+include(":feature:cards")
+include(":feature:about_app")

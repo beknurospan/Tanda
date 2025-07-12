@@ -25,7 +25,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -43,35 +45,39 @@ import androidx.navigation3.ui.NavDisplay
 
 import com.beknur.sausaq.navigation.BottomBarScreen
 import com.beknur.sausaq.navigation.BottomBarScreenSaver
-import com.beknur.sausaq.navigation.CartGraph
-import com.beknur.sausaq.navigation.CatalogGraph
-import com.beknur.sausaq.navigation.FavoriteGraph
-import com.beknur.sausaq.navigation.HomeGraph
-import com.beknur.sausaq.navigation.ProfileGraph
+import com.beknur.sausaq.navigation.RootGraph
 import com.beknur.sausaq.navigation.Screen
 
 
 import com.beknur.sausaq.navigation.bottomBarItems
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
 fun SausaqApp() {
 
-
 	var currentDestination: BottomBarScreen by rememberSaveable(
 		stateSaver = BottomBarScreenSaver
 	) { mutableStateOf(BottomBarScreen.Catalog) }
 
-	Log.d("recomp", "rec")
 	val backStackHome = rememberNavBackStack(Screen.Home)
 	val backStackProfile = rememberNavBackStack(Screen.Profile)
 	val backStackCatalog = rememberNavBackStack(Screen.Catalog)
 	val backStackCart = rememberNavBackStack(Screen.Cart)
 	val backStackFav = rememberNavBackStack(Screen.Favorites)
 
+
+	val backStacks = rememberSaveable {
+		mapOf(
+			BottomBarScreen.Catalog to backStackCatalog,
+			BottomBarScreen.Profile to backStackProfile,
+			BottomBarScreen.Home to backStackHome,
+			BottomBarScreen.Cart to backStackCart,
+			BottomBarScreen.Favorites to backStackFav
+		)
+	}
 
 	Scaffold(
 
@@ -110,20 +116,8 @@ fun SausaqApp() {
 				.fillMaxSize()
 				.padding(innerPadding)
 		) {
-
-			when (currentDestination) {
-				is BottomBarScreen.Home -> HomeGraph(backStackHome)
-				is BottomBarScreen.Cart -> CartGraph(backStackCart)
-				is BottomBarScreen.Catalog -> CatalogGraph(backStackCatalog)
-				is BottomBarScreen.Favorites -> FavoriteGraph(backStackFav)
-				is BottomBarScreen.Profile -> ProfileGraph(backStackProfile)
-			}
-
-
-
-
-
-
+			val backStack=backStacks[currentDestination]!!
+			RootGraph(backStack)
 		}
 
 

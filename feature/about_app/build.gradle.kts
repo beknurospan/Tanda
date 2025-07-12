@@ -4,7 +4,8 @@ plugins {
 }
 
 android {
-	namespace = "com.beknur.payment"
+	namespace = "com.beknur.about_app"
+
 }
 
 dependencies {

@@ -13,13 +13,14 @@ import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.beknur.cart.CartScreen
+import com.beknur.catalog.CatalogScreen
+import com.beknur.favorites.FavoritesScreen
 import com.beknur.productdetail.ProductDetailScreen
 
-
 @Composable
-fun HomeGraph(backStack: NavBackStack){
+fun RootGraph(backStack: NavBackStack){
 	NavDisplay(
-
 		backStack =backStack ,
 		entryDecorators = listOf(
 			rememberSavedStateNavEntryDecorator(),
@@ -49,11 +50,37 @@ fun HomeGraph(backStack: NavBackStack){
 					contentAlignment = Alignment.Center
 				) {
 
-						Text(text = "Offer")
+					Text(text = "Offer")
 
 				}
 			}
+			entry<Screen.Favorites>{
+				FavoritesScreen()
+			}
+			entry<Screen.Catalog>{ CatalogScreen { {} } }
+			entry<Screen.Product>{
+				Text("dadfg")
+			}
+			entry<Screen.Cart>{
+				CartScreen()
+			}
+			entry<Screen.ProductDetail>{
 
+			}
+			entry<Screen.Checkout>{
+				Text("dadfg")
+			}
+			entry<Screen.Profile>{
+				Box(
+					modifier = Modifier.fillMaxSize(),
+					contentAlignment = Alignment.Center
+				) {
+					Button(onClick = { backStack.add(Screen.Checkout) }) {
+						Text(text = "Checkout")
+					}
+				}
+
+			}
 
 
 		}
