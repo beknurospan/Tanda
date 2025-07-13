@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -33,6 +34,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
@@ -45,6 +47,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.beknur.designsystem.theme.Gray
 import com.beknur.designsystem.R as coreR
 import  com.beknur.designsystem.theme.Green
@@ -53,7 +56,18 @@ import com.beknur.designsystem.theme.Orange
 
 
 @Composable
-fun ProductScreen(text: String) {
+fun ProductScreenRoute(viewModel: ProductViewModel) {
+
+	val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+	ProductScreen(viewState,viewModel::handleEvent)
+}
+
+
+@Composable
+fun ProductScreen(
+	viewState: ProductViewState,
+	sendUiEvent: (ProductUiEvent) -> Unit
+) {
 	Column(
 		modifier = Modifier
 			.fillMaxSize()
@@ -61,19 +75,22 @@ fun ProductScreen(text: String) {
 			.padding(8.dp),
 	) {
 
-		TopField(text)
+		TopField("",{sendUiEvent(ProductUiEvent.OnProductSelected)})
 	}
 }
 
 @Preview
 @Composable
 fun ProductScreenPreview() {
-	ProductScreen("Обувь")
+	ProductScreen(
+		ProductViewState(" "),
+		sendUiEvent = {}
+	)
 }
 
 
 @Composable
-fun TopField(text: String) {
+fun TopField(text: String,onClick:()->Unit) {
 
 	Row(
 		modifier = Modifier
@@ -105,7 +122,7 @@ fun TopField(text: String) {
 			CategoryButtonCard()
 		}
 	}
-	LazyRow(modifier = Modifier){
+	LazyRow(modifier = Modifier) {
 
 		item {
 			FilterButton()
@@ -115,42 +132,50 @@ fun TopField(text: String) {
 		}
 
 
-		items(7){
+		items(7) {
 			ButtonProperties()
 		}
 	}
 	LazyVerticalGrid(
-		columns = GridCells.Fixed(2), // или GridCells.Adaptive(150.dp)
+		columns = GridCells.Fixed(2),
 		contentPadding = PaddingValues(12.dp),
 		horizontalArrangement = Arrangement.spacedBy(14.dp),
 		verticalArrangement = Arrangement.spacedBy(14.dp)
 	) {
 		items(20) { index ->
 
-			Column (verticalArrangement = Arrangement.spacedBy(5.dp)){
+			Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
 
 				Box(
 					modifier = Modifier
 						.fillMaxWidth()
 						.aspectRatio(3f / 4f)
+						.clickable { onClick.invoke() }
 						.shadow(
 							elevation = 1.dp, // ← тень здесь
 							shape = RoundedCornerShape(2.dp), // для лучшего эффекта
 						)
-						.clip(shape = RoundedCornerShape(8.dp))
-
-
-
-					,
+						.clip(shape = RoundedCornerShape(8.dp)),
 					contentAlignment = Alignment.Center,
 				) {
 
 				}
 				Text("Brand")
 				Text("Имя Товара")
-				Row(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(4.dp)).height(30.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Absolute.Center){
+				Row(
+					modifier = Modifier
+						.fillMaxWidth()
+						.clip(RoundedCornerShape(4.dp))
+						.height(30.dp),
+					verticalAlignment = Alignment.CenterVertically,
+					horizontalArrangement = Arrangement.Absolute.Center
+				) {
 					Text("30 000 ", fontWeight = FontWeight.Bold)
-					Icon(modifier = Modifier.size(10.dp), imageVector = ImageVector.vectorResource(coreR.drawable.tenge_svgrepo_com), contentDescription = "")
+					Icon(
+						modifier = Modifier.size(10.dp),
+						imageVector = ImageVector.vectorResource(coreR.drawable.tenge_svgrepo_com),
+						contentDescription = ""
+					)
 				}
 			}
 
@@ -159,10 +184,7 @@ fun TopField(text: String) {
 	}
 
 
-
 }
-
-
 
 
 @Preview
@@ -184,18 +206,23 @@ fun CategoryButtonCard(text: String = "что то") {
 @Preview
 @Composable
 fun FilterButton() {
-	Box(modifier = Modifier
-		.padding(horizontal = 4.dp, vertical = 3.dp)
-		.size(34.dp)
-		.clip(RoundedCornerShape(2.dp))
-		.border(1.dp, Color.Black, shape = RoundedCornerShape(2.dp)),
+	Box(
+		modifier = Modifier
+			.padding(horizontal = 4.dp, vertical = 3.dp)
+			.size(34.dp)
+			.clip(RoundedCornerShape(2.dp))
+			.border(1.dp, Color.Black, shape = RoundedCornerShape(2.dp)),
 		contentAlignment = Alignment.Center
-		
+
 
 	) {
 
 
-		Icon(imageVector = ImageVector.vectorResource(coreR.drawable.filter_alt_light), contentDescription = "", modifier = Modifier.size(24.dp))
+		Icon(
+			imageVector = ImageVector.vectorResource(coreR.drawable.filter_alt_light),
+			contentDescription = "",
+			modifier = Modifier.size(24.dp)
+		)
 
 	}
 }
@@ -203,36 +230,49 @@ fun FilterButton() {
 @Preview
 @Composable
 fun SortButton() {
-	Box(modifier = Modifier
-		.padding(horizontal = 4.dp, vertical = 3.dp)
-		.size(34.dp)
-		.clip(RoundedCornerShape(2.dp))
-		.border(1.dp, Color.Black, shape = RoundedCornerShape(2.dp)),
+	Box(
+		modifier = Modifier
+			.padding(horizontal = 4.dp, vertical = 3.dp)
+			.size(34.dp)
+			.clip(RoundedCornerShape(2.dp))
+			.border(1.dp, Color.Black, shape = RoundedCornerShape(2.dp)),
 		contentAlignment = Alignment.Center
 
 
 	) {
 
 
-		Icon(imageVector = ImageVector.vectorResource(coreR.drawable.sort_arrow_light), contentDescription = "", modifier = Modifier.size(24.dp))
+		Icon(
+			imageVector = ImageVector.vectorResource(coreR.drawable.sort_arrow_light),
+			contentDescription = "",
+			modifier = Modifier.size(24.dp)
+		)
 
 	}
 }
+
 @Preview
 @Composable
-fun ButtonProperties(text:String="что то") {
-	Row(modifier = Modifier
-		.padding(horizontal = 4.dp, vertical = 3.dp)
-		.height(34.dp)
-		.clip(RoundedCornerShape(2.dp))
-		.border(1.dp, Color.Black, shape = RoundedCornerShape(2.dp)),
+fun ButtonProperties(text: String = "что то") {
+	Row(
+		modifier = Modifier
+			.padding(horizontal = 4.dp, vertical = 3.dp)
+			.height(34.dp)
+			.clip(RoundedCornerShape(2.dp))
+			.border(1.dp, Color.Black, shape = RoundedCornerShape(2.dp)),
 		verticalAlignment = Alignment.CenterVertically
 
 
 	) {
 
 		Text(text, modifier = Modifier.padding(horizontal = 10.dp))
-		Icon(imageVector = ImageVector.vectorResource(coreR.drawable.vector_9), contentDescription = "", modifier = Modifier.size(24.dp).padding(end = 6.dp))
+		Icon(
+			imageVector = ImageVector.vectorResource(coreR.drawable.vector_9),
+			contentDescription = "",
+			modifier = Modifier
+				.size(24.dp)
+				.padding(end = 6.dp)
+		)
 
 	}
 }

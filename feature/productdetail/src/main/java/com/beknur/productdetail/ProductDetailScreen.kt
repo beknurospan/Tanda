@@ -26,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,8 +37,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import com.beknur.productdetail.composables.SizeBox
 import com.beknur.designsystem.R as coreR
 import com.beknur.designsystem.ui.TndButton
 import com.beknur.productdetail.composables.AboutBrand
@@ -46,10 +47,28 @@ import com.beknur.productdetail.composables.CardWhite
 import com.beknur.productdetail.composables.ReviewsItem
 import com.beknur.productdetail.data.ItemInfo
 
+
+@Composable
+fun ProductDetailRoute(viewModel: ProductDetailViewModel){
+
+	val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+	ProductDetailScreen(viewState,viewModel::handleEvent)
+
+}
+
+
 @Composable
 fun ProductDetailScreen(
-	photoList: List<String>
+
+	viewState: ProductDetialViewState,
+	sendUiEvent: (ProductDetailUiEvent)->Unit
 ) {
+
+	val photoList=listOf(
+		"https://www.shoppingschool.ru/netcat_files/userfiles/Articles/2023/Travel_looks/travel5.jpeg",
+		"https://www.shoppingschool.ru/netcat_files/userfiles/Articles/2023/Travel_looks/travel5.jpeg",
+		"https://www.shoppingschool.ru/netcat_files/userfiles/Articles/2023/Travel_looks/travel5.jpeg"
+	)
 
 	Column(
 		modifier = Modifier
@@ -149,13 +168,7 @@ fun InOtherColorItem(img: String, colorText: String) {
 @Preview()
 @Composable
 fun ProductDetailScreenPreview() {
-	ProductDetailScreen(
-		listOf(
-			"https://www.shoppingschool.ru/netcat_files/userfiles/Articles/2023/Travel_looks/travel5.jpeg",
-			"https://www.shoppingschool.ru/netcat_files/userfiles/Articles/2023/Travel_looks/travel5.jpeg",
-			"https://www.shoppingschool.ru/netcat_files/userfiles/Articles/2023/Travel_looks/travel5.jpeg"
-		)
-	)
+	ProductDetailScreen(ProductDetialViewState(""),{})
 }
 
 

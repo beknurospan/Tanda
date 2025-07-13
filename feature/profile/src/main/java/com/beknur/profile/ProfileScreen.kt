@@ -3,6 +3,7 @@ package com.beknur.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,6 +29,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,16 +40,31 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.beknur.designsystem.R as coreR
 import com.beknur.designsystem.theme.Gray
 import com.beknur.designsystem.theme.Green
 import com.beknur.profile.composables.ProfileDataItem
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview
+
+
 @Composable
-fun ProfileScreen() {
+fun ProfileScreenRoute(viewModel: ProfileViewModel){
+
+	val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+	ProfileScreen(viewState,viewModel::handleEvent)
+}
+
+
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ProfileScreen(
+	viewState: ProfileViewState,
+	sendUiEvent:(ProfileUiEvent)-> Unit
+) {
 
 	Column(
 		modifier = Modifier
@@ -60,14 +77,14 @@ fun ProfileScreen() {
 
 			title = { ProfileDataItem() },
 		)
-		ProfileItem(coreR.drawable.shopicons_regular_clock, "Мои заказы")
-		ProfileItem(coreR.drawable.shopicons_regular_creditcard, "Карты")
-		ProfileItem(coreR.drawable.location_on, "Адрес")
-		ProfileItem(coreR.drawable.shopicons_regular_bell, "Уведомления")
+		ProfileItem(coreR.drawable.shopicons_regular_clock, "Мои заказы",{sendUiEvent(ProfileUiEvent.OnOrderClick)})
+		ProfileItem(coreR.drawable.shopicons_regular_creditcard, "Карты",{sendUiEvent(ProfileUiEvent.OnCardsClick)})
+		ProfileItem(coreR.drawable.location_on, "Адрес",{sendUiEvent(ProfileUiEvent.OnAddressClick)})
+		ProfileItem(coreR.drawable.shopicons_regular_bell, "Уведомления",{sendUiEvent(ProfileUiEvent.OnNotificationClick)})
 
-		ProfileItem(coreR.drawable.shopicons_regular_book1, "О приложений")
-		ProfileItem(coreR.drawable.shopicons_regular_service, "Поддержка")
-		ProfileItem(coreR.drawable.sign_out_squre, "Выйти")
+		ProfileItem(coreR.drawable.shopicons_regular_book1, "О приложений",{sendUiEvent(ProfileUiEvent.OnAboutAppClick)})
+		ProfileItem(coreR.drawable.shopicons_regular_service, "Поддержка",{sendUiEvent(ProfileUiEvent.OnSupportClick)})
+		ProfileItem(coreR.drawable.sign_out_squre, "Выйти",{sendUiEvent(ProfileUiEvent.OnLogoutClick)})
 
 
 	}
@@ -78,7 +95,8 @@ fun ProfileScreen() {
 @Composable
 fun ProfileItem(
 	icon: Int,
-	text: String
+	text: String,
+	onClick:()->Unit
 ) {
 
 
@@ -86,7 +104,9 @@ fun ProfileItem(
 		modifier = Modifier
 			.fillMaxWidth()
 			.height(50.dp)
-			.padding(horizontal = 15.dp),
+			.padding(horizontal = 15.dp)
+			.clickable { onClick.invoke() }
+		,
 		colors = CardDefaults.cardColors(containerColor = White),
 		elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
 
