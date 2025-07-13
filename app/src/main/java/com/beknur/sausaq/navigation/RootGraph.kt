@@ -1,88 +1,101 @@
 package com.beknur.sausaq.navigation
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.beknur.about_app.AboutAppScreen
+import com.beknur.address.AddressScreen
 import com.beknur.cart.CartScreen
 import com.beknur.catalog.CatalogScreen
+import com.beknur.catalog.CatalogScreenRoute
+import com.beknur.catalog.CatalogViewModel
 import com.beknur.favorites.FavoritesScreen
+import com.beknur.navigation.NavigationCommand
+import com.beknur.navigation.NavigationManager
+import com.beknur.navigation.Screen
+import com.beknur.notifications.NotificationScreen
+import com.beknur.orders.OrdersScreen
+import com.beknur.product.ProductScreen
+import com.beknur.product.ProductScreenRoute
+import com.beknur.product.ProductViewModel
+import com.beknur.productdetail.ProductDetailRoute
 import com.beknur.productdetail.ProductDetailScreen
+import com.beknur.productdetail.ProductDetailViewModel
+import com.beknur.profile.ProfileScreen
+import com.beknur.profile.ProfileScreenRoute
+import com.beknur.profile.ProfileViewModel
+import com.beknur.support.SupportScreen
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun RootGraph(backStack: NavBackStack){
-	NavDisplay(
-		backStack =backStack ,
-		entryDecorators = listOf(
-			rememberSavedStateNavEntryDecorator(),
-			rememberViewModelStoreNavEntryDecorator()
-		),
-		entryProvider = entryProvider {
-			entry<Screen.Home>{
-				ProductDetailScreen(		listOf(
-					"https://streams.frend.dev/image/v1?url=https%3A%2F%2Fvikingfootwear.centracdn.net%2Fclient%2Fdynamic%2Fimages%2F1486_91ebd57e2f-3-55650-305-b-1350x0.jpg&width=1200&quality=80",
-					"https://streams.frend.dev/image/v1?url=https%3A%2F%2Fvikingfootwear.centracdn.net%2Fclient%2Fdynamic%2Fimages%2F1486_91ebd57e2f-3-55650-305-b-1350x0.jpg&width=1200&quality=80",
-					"https://streams.frend.dev/image/v1?url=https%3A%2F%2Fvikingfootwear.centracdn.net%2Fclient%2Fdynamic%2Fimages%2F1486_91ebd57e2f-3-55650-305-b-1350x0.jpg&width=1200&quality=80"
-				))
-			}
-			entry<Screen.Search>{
-				Box(
-					modifier = Modifier.fillMaxSize(),
-					contentAlignment = Alignment.Center
-				) {
-					Button(onClick = { backStack.add(Screen.Offer) }) {
-						Text(text = "Offer")
-					}
-				}
-			}
-			entry<Screen.Offer>{
-				Box(
-					modifier = Modifier.fillMaxSize(),
-					contentAlignment = Alignment.Center
-				) {
+fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager){
 
-					Text(text = "Offer")
+	key(backStack) {
+		NavDisplay(
+			entryProvider = entryProvider {
+				entry<Screen.Home> {
 
 				}
-			}
-			entry<Screen.Favorites>{
-				FavoritesScreen()
-			}
-			entry<Screen.Catalog>{ CatalogScreen { {} } }
-			entry<Screen.Product>{
-				Text("dadfg")
-			}
-			entry<Screen.Cart>{
-				CartScreen()
-			}
-			entry<Screen.ProductDetail>{
-
-			}
-			entry<Screen.Checkout>{
-				Text("dadfg")
-			}
-			entry<Screen.Profile>{
-				Box(
-					modifier = Modifier.fillMaxSize(),
-					contentAlignment = Alignment.Center
-				) {
-					Button(onClick = { backStack.add(Screen.Checkout) }) {
-						Text(text = "Checkout")
-					}
+				entry<Screen.Search> {}
+				entry<Screen.Offer> {}
+				entry<Screen.Favorites> { FavoritesScreen() }
+				entry<Screen.Catalog> {
+					val viewModel = koinViewModel<CatalogViewModel>()
+					CatalogScreenRoute(viewModel)
+				}
+				entry<Screen.Product> { key ->
+					val viewModel = koinViewModel<ProductViewModel>()
+					ProductScreenRoute(viewModel)
+				}
+				entry<Screen.Cart> { CartScreen() }
+				entry<Screen.ProductDetail> {
+					val viewModel = koinViewModel<ProductDetailViewModel>()
+					ProductDetailRoute(viewModel)
+				}
+				entry<Screen.Checkout> {}
+				entry<Screen.Profile> {
+					val viewModel = koinViewModel<ProfileViewModel>()
+					ProfileScreenRoute(viewModel)
+				}
+				entry<Screen.Address> {
+					AddressScreen()
+				}
+				entry<Screen.Cards> {
+					AddressScreen()
+				}
+				entry<Screen.Orders> {
+					OrdersScreen()
+				}
+				entry<Screen.Notifications> {
+					NotificationScreen()
+				}
+				entry<Screen.AboutApp> {
+					AboutAppScreen()
+				}
+				entry<Screen.Support> {
+					SupportScreen()
 				}
 
+			},
+			backStack = backStack,
+			entryDecorators = listOf(
+				rememberSavedStateNavEntryDecorator(),
+				rememberViewModelStoreNavEntryDecorator()
+			)
+		)
+		LaunchedEffect(Unit) {
+			navigationManager.commands.collect {
+				when (it) {
+					NavigationCommand.Back -> Unit
+					is NavigationCommand.Navigate -> backStack.add(it.screen)
+				}
 			}
-
-
 		}
-	)
+	}
 }

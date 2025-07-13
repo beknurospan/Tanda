@@ -4,6 +4,7 @@ plugins {
 	alias(libs.plugins.kotlin.android)
 	alias(libs.plugins.kotlin.compose)
 	alias(libs.plugins.kotlin.serialization)
+	alias(libs.plugins.com.beknur.koin)
 }
 
 android {
@@ -74,5 +75,14 @@ dependencies {
 	implementation(project(":feature:auth"))
 	implementation(project(":feature:profile"))
 	implementation(project(":feature:productdetail"))
+	implementation(project(":feature:address"))
+	implementation(project(":feature:cards"))
+	implementation(project(":feature:payment"))
+	implementation(project(":feature:orders"))
+	implementation(project(":feature:notifications"))
+	implementation(project(":feature:home"))
+	implementation(project(":feature:about_app"))
+	implementation(project(":feature:support"))
+	implementation(project(":core:navigation"))
 
 }

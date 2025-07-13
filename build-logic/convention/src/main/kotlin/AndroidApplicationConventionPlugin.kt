@@ -12,6 +12,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 			apply(plugin = "org.jetbrains.kotlin.android")
 			apply(plugin = "com.beknur.detekt")
 
+
 			extensions.configure<ApplicationExtension> {
 				configureKotlinAndroid(this)
 				defaultConfig.targetSdk = 36

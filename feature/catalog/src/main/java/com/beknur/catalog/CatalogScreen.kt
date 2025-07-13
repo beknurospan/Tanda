@@ -41,6 +41,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.beknur.catalog.data.ProductCategory
 import com.beknur.catalog.data.ProductCategoryInfo
 import com.beknur.designsystem.theme.Gray
@@ -48,16 +49,24 @@ import com.beknur.designsystem.theme.GreenDark
 
 
 @Composable
-fun CatalogScreen(onClick: () -> Unit) {
+fun CatalogScreenRoute(viewModel: CatalogViewModel){
+	val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+	CatalogScreen(viewState,viewModel::handleEvent)
+}
+
+@Composable
+fun CatalogScreen(
+	viewModel: CatalogViewState,
+	sendUiEvent: (CatalogUiEvent) -> Unit
+) {
 	var selectedIndex by remember { mutableStateOf(0) }
 	val options = listOf("мужчины", "женщины", "дети")
-	val categories= ProductCategoryInfo.categoriesMen
+	val categories = ProductCategoryInfo.categoriesMen
 	Column(
 		Modifier
 			.fillMaxSize()
 			.background(Color.White)
-			.padding(horizontal = 30.dp)
-		,
+			.padding(horizontal = 30.dp),
 		horizontalAlignment = Alignment.CenterHorizontally
 	) {
 		Spacer(modifier = Modifier.height(12.dp))
@@ -69,17 +78,23 @@ fun CatalogScreen(onClick: () -> Unit) {
 		)
 		Spacer(modifier = Modifier.height(24.dp))
 		LazyColumn(
-			verticalArrangement = Arrangement.spacedBy(10.dp)) {
-				items(categories) { category ->
-					ProductIcon(
-						category.name,
-						onClick = {CatalogUiEvent.OnProductCategoryClick(category.name,
-							category.gender.code
-						)}
-					)
-				}
-
+			verticalArrangement = Arrangement.spacedBy(10.dp)
+		) {
+			items(categories) { category ->
+				ProductIcon(
+					category.name,
+					onClick = {
+						sendUiEvent
+							.invoke(
+								CatalogUiEvent.OnProductCategoryClick(
+									category.name, category.gender.code
+								)
+							)
+					}
+				)
 			}
+
+		}
 
 	}
 }
@@ -87,7 +102,7 @@ fun CatalogScreen(onClick: () -> Unit) {
 @Preview
 @Composable
 fun CatalogScreenPreview() {
-	CatalogScreen { {} }
+
 }
 
 
@@ -183,7 +198,12 @@ fun AnimatedSegmentedControl(
 @Composable
 fun ProductIcon(text: String, onClick: () -> Unit) {
 
-	Row(modifier = Modifier.fillMaxWidth().clickable { onClick.invoke() }, verticalAlignment = Alignment.CenterVertically) {
+	Row(
+		modifier = Modifier
+			.fillMaxWidth()
+			.clickable { onClick.invoke() },
+		verticalAlignment = Alignment.CenterVertically
+	) {
 		Box(
 			modifier = Modifier
 				.width(44.dp)
