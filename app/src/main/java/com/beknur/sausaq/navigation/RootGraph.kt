@@ -30,6 +30,7 @@ import com.beknur.productdetail.ProductDetailViewModel
 import com.beknur.profile.ProfileScreen
 import com.beknur.profile.ProfileScreenRoute
 import com.beknur.profile.ProfileViewModel
+import com.beknur.search.SearchScreen
 import com.beknur.support.SupportScreen
 import org.koin.androidx.compose.koinViewModel
 
@@ -42,7 +43,9 @@ fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager){
 				entry<Screen.Home> {
 
 				}
-				entry<Screen.Search> {}
+				entry<Screen.Search> {
+					SearchScreen()
+				}
 				entry<Screen.Offer> {}
 				entry<Screen.Favorites> { FavoritesScreen() }
 				entry<Screen.Catalog> {

@@ -13,11 +13,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.beknur.designsystem.theme.GreenDark
 
 
 @Composable
 fun TndButton(isEnabled: Boolean, onClick: () -> Unit, text: String,modifier: Modifier=Modifier) {
-	val bgColor = if (isEnabled) Color.Green else Color.Gray
+	val bgColor = if (isEnabled) GreenDark else Color.Gray
 
 	Button(
 		enabled = isEnabled,

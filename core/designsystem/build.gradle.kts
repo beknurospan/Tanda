@@ -8,7 +8,9 @@ android {
 }
 
 dependencies {
-
+	implementation(libs.coil.compose.v250)
+	implementation("androidx.compose.ui:ui-text-google-fonts:1.6.7")
+	implementation(libs.androidx.material.icons.extended)
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.appcompat)
 	implementation(libs.material)

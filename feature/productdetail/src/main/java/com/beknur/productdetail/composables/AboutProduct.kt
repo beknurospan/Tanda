@@ -31,16 +31,16 @@ fun AboutProductPreview() {
 
 @Composable
 fun AboutProduct(articule:String,mapData:List<ItemInfo>) {
-
-	Column {
-		Text("О товаре")
-		for(item in mapData){
-			Text(item.key)
-			Text(item.value)
+	CardWhite {
+		Column {
+			Text("О товаре")
+			for(item in mapData){
+				Text(item.key)
+				Text(item.value)
+			}
+			Text(articule)
 		}
-		Text(articule)
+
 	}
-
-
 
 }

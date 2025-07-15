@@ -16,11 +16,19 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ReviewsItem(rating:String) {
-	Row(modifier = Modifier
-		.fillMaxWidth()
-		.background(Color.Gray)
-		.padding(5.dp)) {
+	CardWhite {
+		Row(modifier = Modifier
+			.fillMaxWidth()
+			.padding(5.dp)) {
 
+		}
+		Text(rating)
 	}
-	Text(rating)
+}
+
+
+@Preview
+@Composable
+fun ReviewsItemPreview(){
+	ReviewsItem("4.0")
 }

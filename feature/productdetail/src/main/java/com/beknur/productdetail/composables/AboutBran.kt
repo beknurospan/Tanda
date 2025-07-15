@@ -7,12 +7,13 @@ import androidx.compose.runtime.Composable
 
 
 @Composable
-fun AboutBrand(text:String){
-	Column {
-		Text("О Бренде")
-		Text("Бренд назвние")
-		Text(text)
+fun AboutBrand(text: String) {
+	CardWhite {
+		Column {
+			Text("О Бренде")
+			Text("Бренд назвние")
+			Text(text)
 
+		}
 	}
-
 }

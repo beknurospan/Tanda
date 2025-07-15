@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="feature_catalog_option_men">мужчины</string>
+    <string name="feature_catalog_option_woman">женщины</string>
+    <string name="feature_catalog_option_kids">дети</string>
+    <string name="feature_catalog_find">Поиск</string>
+</resources>

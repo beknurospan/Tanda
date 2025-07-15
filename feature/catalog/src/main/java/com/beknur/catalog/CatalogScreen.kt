@@ -1,95 +1,75 @@
 package com.beknur.catalog
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-
-import androidx.compose.material3.Text
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
-
-
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.beknur.catalog.composables.AnimatedSegmentedControl
+import com.beknur.catalog.composables.ProductIcon
 import com.beknur.catalog.data.ProductCategory
-import com.beknur.catalog.data.ProductCategoryInfo
-import com.beknur.designsystem.theme.Gray
-import com.beknur.designsystem.theme.GreenDark
+import com.beknur.designsystem.ui.SearchTextField
 
 
 @Composable
-fun CatalogScreenRoute(viewModel: CatalogViewModel){
+fun CatalogScreenRoute(viewModel: CatalogViewModel) {
 	val viewState by viewModel.viewState.collectAsStateWithLifecycle()
-	CatalogScreen(viewState,viewModel::handleEvent)
+	CatalogScreen(viewState, viewModel::handleEvent)
 }
 
 @Composable
 fun CatalogScreen(
-	viewModel: CatalogViewState,
+	viewState: CatalogViewState,
 	sendUiEvent: (CatalogUiEvent) -> Unit
 ) {
-	var selectedIndex by remember { mutableStateOf(0) }
-	val options = listOf("мужчины", "женщины", "дети")
-	val categories = ProductCategoryInfo.categoriesMen
+	val options = listOf(
+		stringResource(R.string.feature_catalog_option_men),
+		stringResource(R.string.feature_catalog_option_woman),
+		stringResource(R.string.feature_catalog_option_kids)
+	)
 	Column(
 		Modifier
 			.fillMaxSize()
 			.background(Color.White)
 			.padding(horizontal = 30.dp),
-		horizontalAlignment = Alignment.CenterHorizontally
+		horizontalAlignment = Alignment.CenterHorizontally,
+		verticalArrangement = Arrangement.spacedBy(25.dp)
 	) {
-		Spacer(modifier = Modifier.height(12.dp))
-		SearchBarPlaceholder(onClick = { CatalogUiEvent.OnSearchClick })
+		Spacer(modifier = Modifier.height(5.dp))
+		SearchTextField(false){sendUiEvent(CatalogUiEvent.OnSearchClick)}
 		AnimatedSegmentedControl(
 			options = options,
-			selectedIndex = selectedIndex,
-			onSelectedChange = { CatalogUiEvent.OnGenderChanged(it) }
+			selectedIndex = viewState.selectedIndex,
+			onSelectedChange = { sendUiEvent(CatalogUiEvent.OnGenderChanged(it)) }
 		)
-		Spacer(modifier = Modifier.height(24.dp))
 		LazyColumn(
+			modifier = Modifier.fillMaxHeight(),
 			verticalArrangement = Arrangement.spacedBy(10.dp)
 		) {
-			items(categories) { category ->
+			items(viewState.categories) { category ->
 				ProductIcon(
 					category.name,
 					onClick = {
-						sendUiEvent
-							.invoke(
-								CatalogUiEvent.OnProductCategoryClick(
-									category.name, category.gender.code
-								)
+						sendUiEvent(
+							CatalogUiEvent.OnProductCategoryClick(
+								category.name, category.gender
 							)
+						)
 					}
 				)
 			}
@@ -102,122 +82,13 @@ fun CatalogScreen(
 @Preview
 @Composable
 fun CatalogScreenPreview() {
-
+	CatalogScreen(CatalogViewState(
+		listOf(ProductCategory("", "", "")),
+		selectedIndex = 1
+	), {})
 }
 
 
-@Composable
-fun SearchBarPlaceholder(onClick: () -> Unit) {
-	Box(
-		modifier = Modifier
-			.fillMaxWidth()
-			.height(86.dp),
-		contentAlignment = Alignment.Center
-
-	) {
-		Row(
-			modifier = Modifier
-				.fillMaxWidth()
-				.height(36.dp)
-				.clip(RoundedCornerShape(10.dp))
-				.background(MaterialTheme.colorScheme.surfaceVariant)
-				.clickable { onClick.invoke() },
-			verticalAlignment = Alignment.CenterVertically
 
 
-		) {
 
-
-			Icon(
-				modifier = Modifier.padding(start = 8.dp),
-				imageVector = Icons.Default.Search,
-				contentDescription = ""
-			)
-			Spacer(modifier = Modifier.width(8.dp))
-			Text(
-				text = "Поиск",
-				color = Color.Gray
-			)
-		}
-	}
-}
-
-@Composable
-fun AnimatedSegmentedControl(
-	options: List<String>,
-	selectedIndex: Int,
-	onSelectedChange: (Int) -> Unit,
-	modifier: Modifier = Modifier
-) {
-	val screenWidthDp = LocalConfiguration.current.screenWidthDp.dp
-	val segmentWidth = screenWidthDp / options.size
-	val indicatorOffset by animateDpAsState(targetValue = segmentWidth * selectedIndex)
-
-	Box(
-		modifier = modifier
-			.fillMaxWidth()
-			.height(36.dp)
-			.background(Gray)
-			.clip(
-				RoundedCornerShape(4.dp)
-			),
-		contentAlignment = Alignment.CenterStart
-	) {
-
-		Box(
-			modifier = Modifier
-				.offset(x = indicatorOffset)
-				.width(segmentWidth)
-				.fillMaxHeight()
-				.shadow(6.dp, shape = RoundedCornerShape(14.dp))
-				.clip(RoundedCornerShape(14.dp))
-				.background(GreenDark)
-
-		)
-
-		Row(modifier = Modifier.fillMaxWidth()) {
-			options.forEachIndexed { index, title ->
-				Box(
-					modifier = Modifier
-						.width(segmentWidth)
-						.fillMaxHeight()
-						.clickable { onSelectedChange(index) },
-					contentAlignment = Alignment.Center
-				) {
-					Text(
-						text = title,
-						color = if (index == selectedIndex) Color.Black else Color.DarkGray
-					)
-				}
-			}
-		}
-	}
-}
-
-
-@Composable
-fun ProductIcon(text: String, onClick: () -> Unit) {
-
-	Row(
-		modifier = Modifier
-			.fillMaxWidth()
-			.clickable { onClick.invoke() },
-		verticalAlignment = Alignment.CenterVertically
-	) {
-		Box(
-			modifier = Modifier
-				.width(44.dp)
-				.height(44.dp)
-				.clip(
-					RoundedCornerShape(8.dp)
-				)
-				.background(GreenDark)
-
-		)
-
-		Text(text, modifier = Modifier.padding(horizontal = 12.dp))
-
-	}
-
-
-}
