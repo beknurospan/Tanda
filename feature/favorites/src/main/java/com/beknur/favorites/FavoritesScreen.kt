@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -13,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 
@@ -28,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.beknur.designsystem.theme.Gray
 import com.beknur.designsystem.theme.Green
 import com.beknur.designsystem.theme.Orange
+import com.beknur.designsystem.ui.ProductDetailCard
 import com.beknur.designsystem.R as coreR
 
 @Preview
@@ -46,24 +50,15 @@ fun FavoritesScreen() {
 @Preview
 @Composable
 fun ProductItem() {
-	Row(modifier = Modifier
-		.fillMaxWidth()
-		.padding(20.dp)
-		.clip(shape = RoundedCornerShape(10.dp))
-		.background(Gray),
-		verticalAlignment = Alignment.CenterVertically
-		) {
-		Image(
-			painter = painterResource(coreR.drawable.image),
-			contentDescription = "Локальное изображение",
-			modifier = Modifier.width(120.dp).aspectRatio(3f/4f).padding(10.dp).background(Orange)
-		)
-		Column(verticalArrangement = Arrangement.spacedBy(20.dp)){
-			Text("кроссовки")
-			Text("рейтинг")
-			Text("Цена")
+	LazyVerticalGrid(
+		modifier = Modifier.fillMaxSize(),
+		columns = GridCells.Fixed(2),
+		contentPadding = PaddingValues(horizontal = 10.dp, vertical =20.dp ),
+		horizontalArrangement = Arrangement.spacedBy(10.dp),
+		verticalArrangement = Arrangement.spacedBy(10.dp)
+	) {
+		items(2) { photo ->
+			ProductDetailCard {  }
 		}
-
-
 	}
 }

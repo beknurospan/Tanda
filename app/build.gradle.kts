@@ -83,6 +83,7 @@ dependencies {
 	implementation(project(":feature:home"))
 	implementation(project(":feature:about_app"))
 	implementation(project(":feature:support"))
+	implementation(project(":feature:search"))
 	implementation(project(":core:navigation"))
 
 }
