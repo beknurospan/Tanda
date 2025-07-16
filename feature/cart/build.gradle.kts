@@ -9,7 +9,7 @@ android {
 }
 
 dependencies {
-
+	implementation(libs.coil.compose.v250)
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.appcompat)
 	implementation(libs.material)
