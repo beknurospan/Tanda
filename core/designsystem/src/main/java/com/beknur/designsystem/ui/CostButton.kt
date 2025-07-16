@@ -22,9 +22,9 @@ import com.beknur.designsystem.R as coreR
 
 
 @Composable
-fun CostButton(text: String) {
+fun CostButton(text: String,modifier: Modifier=Modifier) {
 	Row(
-		modifier = Modifier
+		modifier = modifier
 			.height(37.dp)
 			.clip(RoundedCornerShape(4.dp))
 			.background(GreenDark)
