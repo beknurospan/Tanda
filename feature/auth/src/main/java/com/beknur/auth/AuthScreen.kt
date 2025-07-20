@@ -1,16 +1,23 @@
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.InputTransformation.Companion.keyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -35,7 +42,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.RectangleShape
+
+import androidx.compose.ui.platform.LocalFocusManager
 import com.beknur.designsystem.theme.Gray
 
 @Preview
@@ -53,49 +66,65 @@ fun AuthScreen() {
 		modifier = Modifier
 			.fillMaxSize()
 			.background(Color.White),
-		verticalArrangement = Arrangement.spacedBy(20.dp)
-	) {
-		Text("Привет")
-		Text(
-			"Введите ваш номер телефона, так мы \n" +
-					"поймем заказывали ли вы у нас раньше"
-		)
 
-		OutlinedTextField(
-			modifier = Modifier
-				.focusRequester(focusRequester)
-				.fillMaxWidth()
-				.height(60.dp)
-				.padding(horizontal = 30.dp),
-			value = phoneNumber,
-			onValueChange = {
-				phoneNumber = it.filter { it.isDigit() }.take(10)
-			},
-			colors = OutlinedTextFieldDefaults.colors(
-				unfocusedBorderColor = Color.Green,
-				focusedBorderColor = Color.Green
-			),
-			visualTransformation = KZPhoneNumberTransformation(),
-			keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-			singleLine = true,
-		)
 
-		Button(
-			onClick = {},
-			colors = ButtonColors(
-				containerColor = Color.Green,
-				contentColor = Color.White,
-				disabledContentColor = Gray,
-				disabledContainerColor = Gray,
-
-				),
-			shape = RoundedCornerShape(6.dp),
-			modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)
 		) {
-			Text("Продолжить")
-		}
+		Spacer(modifier = Modifier.height(30.dp))
+		Column(	verticalArrangement = Arrangement.spacedBy(20.dp), modifier = Modifier.padding(20.dp)) {
+			Text("Привет")
+			Text(
+				"Введите ваш номер телефона, так мы \n" +
+						"поймем заказывали ли вы у нас раньше"
+			)
+			Text("Номер")
+			Box (contentAlignment = Alignment.Center, modifier = Modifier.height(150.dp).fillMaxWidth()){
+				CodeInput(4,"56") { }
 
+			}
+
+
+			Button(
+				onClick = {},
+				colors = ButtonColors(
+					containerColor = Color.Green,
+					contentColor = Color.White,
+					disabledContentColor = Gray,
+					disabledContainerColor = Gray,
+
+					),
+				shape = RoundedCornerShape(6.dp),
+				modifier = Modifier
+					.fillMaxWidth()
+			) {
+				Text("Продолжить")
+			}
+		}
 	}
+}
+
+@Composable
+fun PhoneTextField(
+	focusRequester: FocusRequester,
+	phoneNumber: String
+) {
+	var phoneNumber1 = phoneNumber
+	OutlinedTextField(
+		modifier = Modifier
+			.focusRequester(focusRequester)
+			.fillMaxWidth()
+			.height(60.dp),
+		value = phoneNumber1,
+		onValueChange = {
+			phoneNumber1 = it.filter { it.isDigit() }.take(10)
+		},
+		colors = OutlinedTextFieldDefaults.colors(
+			unfocusedBorderColor = Color.Green,
+			focusedBorderColor = Color.Green
+		),
+		visualTransformation = KZPhoneNumberTransformation(),
+		keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+		singleLine = true,
+	)
 }
 
 
@@ -160,9 +189,78 @@ fun KZPhoneNumberTransformation(): VisualTransformation {
 	}
 }
 
+@Composable
+fun CodeInput(
+	codeLength: Int = 4,
+	code: String,
+	onCodeChange: (String) -> Unit
+) {
+	val focusRequester = remember { FocusRequester() }
+
+	Row(
+		horizontalArrangement = Arrangement.spacedBy(16.dp),
+		verticalAlignment = Alignment.CenterVertically
+	) {
+		repeat(codeLength) { index ->
+			Box(
+				modifier = Modifier
+					.width(40.dp)
+					.height(56.dp)
+					.border(
+						width = 1.dp,
+						color = Color.Transparent,
+						shape = RoundedCornerShape(4.dp)
+					)
+					.drawBehind {
+						val strokeWidth = 2.dp.toPx()
+						drawLine(
+							color = Color(0xFF00C853), // зелёный цвет
+							start = Offset(0f, size.height),
+							end = Offset(size.width, size.height),
+							strokeWidth = strokeWidth
+						)
+					},
+				contentAlignment = Alignment.Center
+			) {
+				val char = code.getOrNull(index)?.toString() ?: ""
+				Text(
+					text = char,
+					style = MaterialTheme.typography.titleLarge,
+					color = Color.Black
+				)
+			}
+		}
+	}
+
+
+	LaunchedEffect(Unit) {
+		focusRequester.requestFocus()
+	}
+
+	Box(modifier = Modifier.size(0.dp)) {
+		BasicTextField(
+			value = code,
+			onValueChange = {
+				if (it.length <= codeLength && it.all { c -> c.isDigit() }) {
+					onCodeChange(it)
+				}
+			},
+			keyboardOptions = KeyboardOptions.Default.copy(
+				keyboardType = KeyboardType.Number
+			),
+			singleLine = true,
+			modifier = Modifier.focusRequester(remember { FocusRequester() })
+		)
+	}
+}
+
+
+
+
+
 @Preview
 @Composable
-fun OtpCode(){
+fun OtpCode() {
 
 }
 

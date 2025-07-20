@@ -21,7 +21,7 @@ class ProfileViewModel(
 		when(event){
 			ProfileUiEvent.OnAboutAppClick -> onAboutAppClick()
 			ProfileUiEvent.OnAddressClick -> onAddressClick()
-			ProfileUiEvent.OnCardsClick -> onAddressClick()
+			ProfileUiEvent.OnCardsClick -> onCardsClick()
 			ProfileUiEvent.OnLogoutClick -> onLogoutClick()
 			ProfileUiEvent.OnNotificationClick -> onNotificationClick()
 			ProfileUiEvent.OnOrderClick -> onOrderClick()

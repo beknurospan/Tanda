@@ -59,3 +59,7 @@ include(":feature:profiledata")
 
 include(":feature:cards")
 include(":feature:about_app")
+include(":feature:map")
+include(":core:location")
+include(":feature:searchmap")
+include(":feature:orderdetail")
