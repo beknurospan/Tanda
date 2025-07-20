@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <application
         android:name=".TandaApplication"
         android:allowBackup="true"
@@ -26,6 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBCqZ64DaE7jXFL0mYeU71bmC_GQ55q6K8"/>
     </application>
 
 </manifest>

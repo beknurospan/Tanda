@@ -84,6 +84,7 @@ dependencies {
 	implementation(project(":feature:about_app"))
 	implementation(project(":feature:support"))
 	implementation(project(":feature:search"))
+	implementation(project(":feature:searchmap"))
 	implementation(project(":core:navigation"))
 
 }

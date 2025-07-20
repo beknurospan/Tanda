@@ -11,6 +11,7 @@ import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.beknur.about_app.AboutAppScreen
 import com.beknur.address.AddressScreen
+import com.beknur.cards.CardsScreen
 import com.beknur.cart.CartScreen
 import com.beknur.catalog.CatalogScreen
 import com.beknur.catalog.CatalogScreenRoute
@@ -31,6 +32,7 @@ import com.beknur.profile.ProfileScreen
 import com.beknur.profile.ProfileScreenRoute
 import com.beknur.profile.ProfileViewModel
 import com.beknur.search.SearchScreen
+import com.beknur.searchmap.SearchMapScreen
 import com.beknur.support.SupportScreen
 import org.koin.androidx.compose.koinViewModel
 
@@ -70,7 +72,7 @@ fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager){
 					AddressScreen()
 				}
 				entry<Screen.Cards> {
-					AddressScreen()
+					CardsScreen()
 				}
 				entry<Screen.Orders> {
 					OrdersScreen()

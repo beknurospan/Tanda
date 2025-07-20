@@ -64,43 +64,78 @@ fun AddProduct() {
 					.background(WhiteGray),
 				contentScale = ContentScale.Fit
 			)
-			Row {
-				Column(
-					modifier = Modifier
-						.weight(1f),
-					verticalArrangement = Arrangement.spacedBy(10.dp),
+			Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+				Row {
+					Column(
+						modifier = Modifier
+							.weight(1f),
+						verticalArrangement = Arrangement.spacedBy(10.dp),
 
-					) {
+						) {
 
-					Text("Кроссовки чепныеxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx L.DARK")
-					Text("RUS 38")
-					Text("2777 тг/шт")
-
-
-				}
+						Text("Кроссовки чепныеxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx L.DARK")
+						Text("RUS 38")
+						Text("2777 тг/шт")
 
 
-
-
-				Column {
-					Box(modifier = Modifier.size(40.dp), contentAlignment = Alignment.TopEnd) {
-						Icon(
-							modifier = Modifier.size(20.dp),
-							imageVector = ImageVector.vectorResource(com.beknur.designsystem.R.drawable.ellipse_99),
-							contentDescription = null
-						)
 					}
+					Column {
+						Box(modifier = Modifier.size(40.dp), contentAlignment = Alignment.TopEnd) {
+							Icon(
+								modifier = Modifier.size(20.dp),
+								imageVector = ImageVector.vectorResource(com.beknur.designsystem.R.drawable.ellipse_99),
+								contentDescription = null
+							)
+						}
+					}
+
 				}
+				Row {
+					Row(
+						modifier = Modifier
+							.height(40.dp)
+							.clip(RoundedCornerShape(8.dp))
+							.background(color = GreenDark),
+						verticalAlignment = Alignment.CenterVertically
+					) {
+						IconButton({}) {
+							Icon(
+								imageVector = ImageVector.vectorResource(com.beknur.designsystem.R.drawable.trash_light),
+								contentDescription = null
+							)
+						}
+						Text("2")
+						IconButton({}) {
+							Icon(
+								imageVector = ImageVector.vectorResource(com.beknur.designsystem.R.drawable.add_light),
+								contentDescription = null
+							)
+						}
+					}
+
+					Box(
+						modifier = Modifier
+							.height(40.dp)
+							.fillMaxWidth()
+							.padding(10.dp)
+							.clip(RoundedCornerShape(4.dp))
+
+
+						,
+						contentAlignment = Alignment.Center
+					) {
+						Text("2800000 тг")
+					}
+
+
+
+				}
+
 
 			}
-			Icon(
-				imageVector = ImageVector.vectorResource(com.beknur.designsystem.R.drawable.trash_light),
-				contentDescription = null
-			)
+
 
 		}
-
-
 
 	}
 

@@ -1,6 +1,9 @@
 [versions]
+
+
+
 agp = "8.10.1"
-coilCompose = "2.5.0"
+coilCompose = "2.7.0"
 detektGradlePlugin = "1.23.6"
 gradle = "8.4.2"
 
@@ -9,24 +12,30 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 kotlinGradlePlugin = "1.9.24"
-lifecycleRuntimeKtx = "2.9.1"
+
+
+
+ktor = "3.2.2"
+serialization = "1.7.1"
+
+lifecycleRuntimeKtx = "2.9.2"
 activityCompose = "1.10.1"
 composeBom = "2025.06.00"
 appcompat = "1.7.1"
 material = "1.12.0"
 
 sqldelight = "1.5.5"
-koin = "3.5.3"
+koin = "4.0.4"
 
-nav3Core = "1.0.0-alpha03"
-lifecycleViewmodelNav3 = "1.0.0-alpha01"
+nav3Core = "1.0.0-alpha05"
+lifecycleViewmodelNav3 = "1.0.0-alpha03"
 kotlinSerialization = "2.1.21"
 kotlinxSerializationCore = "1.8.1"
 material3AdaptiveNav3 = "1.0.0-alpha01"
 
 
 accompanist = "0.37.0"
-androidDesugarJdkLibs = "2.1.4"
+androidDesugarJdkLibs = "2.1.5"
 # AGP and tools should be updated together
 androidGradlePlugin = "8.10.1"
 androidTools = "31.9.0"
@@ -68,8 +77,8 @@ hilt = "2.56"
 hiltExt = "1.2.0"
 jacoco = "0.8.12"
 junit4 = "4.13.2"
-kotlin = "2.1.10"
-kotlinxCoroutines = "1.10.1"
+kotlin = "2.1.21"
+kotlinxCoroutines = "1.10.2"
 kotlinxDatetime = "0.6.1"
 kotlinxSerializationJson = "1.8.0"
 ksp = "2.1.10-1.0.31"
@@ -86,9 +95,11 @@ secrets = "2.0.1"
 truth = "1.4.4"
 turbine = "1.2.0"
 detektVersion="1.23.6"
+
 [libraries]
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 coil-compose-v250 = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+
 navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
 navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
 
@@ -101,6 +112,11 @@ serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-cor
 # add the snapshot builds repository to your project.
 material3-adaptive-navigation3 = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation3", version.ref = "material3AdaptiveNav3" }
 
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detektVersion" }
 detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detektVersion" }
