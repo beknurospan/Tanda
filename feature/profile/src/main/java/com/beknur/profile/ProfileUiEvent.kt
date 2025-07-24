@@ -8,4 +8,6 @@ sealed interface ProfileUiEvent {
 	data object OnAboutAppClick:ProfileUiEvent
 	data object OnSupportClick:ProfileUiEvent
 	data object OnLogoutClick:ProfileUiEvent
+	data object OnAuthClick:ProfileUiEvent
+	data class OnLangChanged(val selectedLang:LangParamsUI):ProfileUiEvent
 }

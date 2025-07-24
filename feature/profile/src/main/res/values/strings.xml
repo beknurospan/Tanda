@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_profile_my_orders">Мои заказы</string>
+    <string name="feature_profile_cards">Карты</string>
+    <string name="feature_profile_adress">Адрес</string>
+    <string name="feature_profile_notifications">Уведомления</string>
+    <string name="feature_profile_about_app">О приложений</string>
+    <string name="feature_profile_support">Поддержка</string>
+    <string name="feature_profile_logout">Выйти</string>
+    <string name="feature_profile_cancel">Отмена</string>
+    <string name="feature_profile_exit">Выход</string>
+    <string name="feature_profile_logout_dialog_message">Вы хотите выйти из аккаунта?</string>
+    <string name="feature_profile_auth_title">Войдите в аккаунт, чтобы оплатить товары</string>
+    <string name="feature_profile_authorization">Авторизоваться</string>
+</resources>

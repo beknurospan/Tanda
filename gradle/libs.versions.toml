@@ -16,6 +16,7 @@ kotlinGradlePlugin = "1.9.24"
 
 
 ktor = "3.2.2"
+material3 = "1.3.2"
 serialization = "1.7.1"
 
 lifecycleRuntimeKtx = "2.9.2"
@@ -100,6 +101,7 @@ detektVersion="1.23.6"
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 coil-compose-v250 = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 
+material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
 navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
 

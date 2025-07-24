@@ -7,13 +7,14 @@ import com.beknur.navigation.NavigationManager
 import com.beknur.navigation.Screen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
 	private val navigationManager: NavigationManager
 ): ViewModel() {
 
-	private val _viewState= MutableStateFlow<ProfileViewState>(ProfileViewState(""))
+	private val _viewState= MutableStateFlow<ProfileViewState>(ProfileViewState("","",false,LangParamsUI.RUS))
 	val viewState=_viewState.asStateFlow()
 
 
@@ -26,6 +27,8 @@ class ProfileViewModel(
 			ProfileUiEvent.OnNotificationClick -> onNotificationClick()
 			ProfileUiEvent.OnOrderClick -> onOrderClick()
 			ProfileUiEvent.OnSupportClick -> onSupportClick()
+			ProfileUiEvent.OnAuthClick -> onAuthClick()
+			is ProfileUiEvent.OnLangChanged -> onLangChanged(event.selectedLang)
 		}
 
 	}
@@ -46,7 +49,7 @@ class ProfileViewModel(
 		}
 	}
 	fun onLogoutClick(){
-
+		_viewState.update { it.copy(isAuth = false) }
 	}
 	fun onNotificationClick(){
 		viewModelScope.launch {
@@ -61,6 +64,17 @@ class ProfileViewModel(
 	fun onSupportClick(){
 		viewModelScope.launch {
 			navigationManager.navigate(Screen.Support)
+		}
+	}
+	fun onAuthClick(){
+		viewModelScope.launch {
+			navigationManager.navigate(Screen.Auth)
+		}
+	}
+	fun onLangChanged(selectedLang:LangParamsUI){
+		when(selectedLang){
+			LangParamsUI.KZ -> _viewState.update { it.copy(currentLang = LangParamsUI.KZ) }
+			LangParamsUI.RUS -> _viewState.update { it.copy(currentLang = LangParamsUI.RUS) }
 		}
 	}
 }
