@@ -1,3 +1,4 @@
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -49,19 +50,29 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.RectangleShape
 
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.beknur.auth.AuthUiEvent
+import com.beknur.auth.AuthViewModel
+import com.beknur.auth.AuthViewState
+import com.beknur.auth.composables.CodeInput
+import com.beknur.auth.composables.PhoneTextField
 import com.beknur.designsystem.theme.Gray
+import com.beknur.navigation.NavigationManager
 
-@Preview
+
 @Composable
-fun AuthScreen() {
-	var phoneNumber by remember { mutableStateOf("") }
-	val focusRequester = remember { FocusRequester() }
+fun AuthScreenRoute(viewModel: AuthViewModel) {
+	val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+	AuthScreen(viewState, viewModel::handleEvent)
+}
 
 
-	LaunchedEffect(Unit) {
-		focusRequester.requestFocus()
-	}
-
+@Composable
+fun AuthScreen(
+	viewState: AuthViewState,
+	sendUiEvent: (AuthUiEvent) -> Unit
+) {
 	Column(
 		modifier = Modifier
 			.fillMaxSize()
@@ -70,21 +81,45 @@ fun AuthScreen() {
 
 		) {
 		Spacer(modifier = Modifier.height(30.dp))
-		Column(	verticalArrangement = Arrangement.spacedBy(20.dp), modifier = Modifier.padding(20.dp)) {
+		Column(
+			verticalArrangement = Arrangement.spacedBy(20.dp),
+			modifier = Modifier.padding(20.dp)
+		) {
 			Text("Привет")
 			Text(
 				"Введите ваш номер телефона, так мы \n" +
 						"поймем заказывали ли вы у нас раньше"
 			)
 			Text("Номер")
-			Box (contentAlignment = Alignment.Center, modifier = Modifier.height(150.dp).fillMaxWidth()){
-				CodeInput(4,"56") { }
+			Box(
+				contentAlignment = Alignment.Center, modifier = Modifier
+					.height(100.dp)
+					.fillMaxWidth()
+			) {
 
+				if (viewState.isOtpMode) {
+					BackHandler(true) {
+						sendUiEvent(
+							AuthUiEvent.OnBackClick
+						)
+					}
+
+					CodeInput(code = viewState.code) { code->
+						sendUiEvent(
+							AuthUiEvent.OnCodeChanged(code)
+						)
+					}
+				} else {
+					PhoneTextField(phoneNumber = viewState.phoneNumber) { number->
+						sendUiEvent(
+							AuthUiEvent.OnPhoneNumberChanged(number)
+						)
+					}
+
+				}
 			}
-
-
 			Button(
-				onClick = {},
+				onClick = {sendUiEvent(AuthUiEvent.OnSendButtonClick)},
 				colors = ButtonColors(
 					containerColor = Color.Green,
 					contentColor = Color.White,
@@ -101,171 +136,6 @@ fun AuthScreen() {
 		}
 	}
 }
-
-@Composable
-fun PhoneTextField(
-	focusRequester: FocusRequester,
-	phoneNumber: String
-) {
-	var phoneNumber1 = phoneNumber
-	OutlinedTextField(
-		modifier = Modifier
-			.focusRequester(focusRequester)
-			.fillMaxWidth()
-			.height(60.dp),
-		value = phoneNumber1,
-		onValueChange = {
-			phoneNumber1 = it.filter { it.isDigit() }.take(10)
-		},
-		colors = OutlinedTextFieldDefaults.colors(
-			unfocusedBorderColor = Color.Green,
-			focusedBorderColor = Color.Green
-		),
-		visualTransformation = KZPhoneNumberTransformation(),
-		keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-		singleLine = true,
-	)
-}
-
-
-fun KZPhoneNumberTransformation(): VisualTransformation {
-	return VisualTransformation { text ->
-		val digits = text.text.filter { it.isDigit() }.take(10)
-
-		val formatted = buildString {
-			append("+7 ")
-			if (digits.length >= 3) append(digits.substring(0, 3)) else append(digits)
-			if (digits.length >= 6) append(
-				" ${
-					digits.substring(
-						3,
-						6
-					)
-				}"
-			) else if (digits.length > 3) append(" ${digits.substring(3)}")
-			if (digits.length >= 8) append(
-				" ${
-					digits.substring(
-						6,
-						8
-					)
-				}"
-			) else if (digits.length > 6) append(" ${digits.substring(6)}")
-			if (digits.length >= 10) append(
-				" ${
-					digits.substring(
-						8,
-						10
-					)
-				}"
-			) else if (digits.length > 8) append(" ${digits.substring(8)}")
-		}
-
-
-		val offsetMapping = object : OffsetMapping {
-			override fun originalToTransformed(offset: Int): Int {
-				return when {
-					offset <= 3 -> offset + 3
-					offset <= 6 -> offset + 4
-					offset <= 8 -> offset + 5
-					offset <= 10 -> offset + 6
-					else -> formatted.length
-				}
-			}
-
-			override fun transformedToOriginal(offset: Int): Int {
-				return when {
-					offset <= 3 -> 0
-					offset <= 7 -> offset - 3
-					offset <= 11 -> offset - 4
-					offset <= 14 -> offset - 5
-					offset <= 17 -> offset - 6
-					else -> 10
-				}
-			}
-		}
-
-		TransformedText(AnnotatedString(formatted), offsetMapping)
-	}
-}
-
-@Composable
-fun CodeInput(
-	codeLength: Int = 4,
-	code: String,
-	onCodeChange: (String) -> Unit
-) {
-	val focusRequester = remember { FocusRequester() }
-
-	Row(
-		horizontalArrangement = Arrangement.spacedBy(16.dp),
-		verticalAlignment = Alignment.CenterVertically
-	) {
-		repeat(codeLength) { index ->
-			Box(
-				modifier = Modifier
-					.width(40.dp)
-					.height(56.dp)
-					.border(
-						width = 1.dp,
-						color = Color.Transparent,
-						shape = RoundedCornerShape(4.dp)
-					)
-					.drawBehind {
-						val strokeWidth = 2.dp.toPx()
-						drawLine(
-							color = Color(0xFF00C853), // зелёный цвет
-							start = Offset(0f, size.height),
-							end = Offset(size.width, size.height),
-							strokeWidth = strokeWidth
-						)
-					},
-				contentAlignment = Alignment.Center
-			) {
-				val char = code.getOrNull(index)?.toString() ?: ""
-				Text(
-					text = char,
-					style = MaterialTheme.typography.titleLarge,
-					color = Color.Black
-				)
-			}
-		}
-	}
-
-
-	LaunchedEffect(Unit) {
-		focusRequester.requestFocus()
-	}
-
-	Box(modifier = Modifier.size(0.dp)) {
-		BasicTextField(
-			value = code,
-			onValueChange = {
-				if (it.length <= codeLength && it.all { c -> c.isDigit() }) {
-					onCodeChange(it)
-				}
-			},
-			keyboardOptions = KeyboardOptions.Default.copy(
-				keyboardType = KeyboardType.Number
-			),
-			singleLine = true,
-			modifier = Modifier.focusRequester(remember { FocusRequester() })
-		)
-	}
-}
-
-
-
-
-
-@Preview
-@Composable
-fun OtpCode() {
-
-}
-
-
-
 
 
 

@@ -1,5 +1,7 @@
 package com.beknur.sausaq.navigation
 
+import AuthScreen
+import AuthScreenRoute
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
@@ -11,6 +13,7 @@ import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.beknur.about_app.AboutAppScreen
 import com.beknur.address.AddressScreen
+import com.beknur.auth.AuthViewModel
 import com.beknur.cards.CardsScreen
 import com.beknur.cart.CartScreen
 import com.beknur.catalog.CatalogScreen
@@ -85,6 +88,10 @@ fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager){
 				}
 				entry<Screen.Support> {
 					SupportScreen()
+				}
+				entry<Screen.Auth>{
+					val viewModel = koinViewModel<AuthViewModel>()
+					AuthScreenRoute(viewModel)
 				}
 
 			},

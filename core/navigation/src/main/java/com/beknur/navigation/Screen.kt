@@ -47,6 +47,8 @@ sealed class Screen: NavKey {
 	data object Address: Screen()
 	@Serializable
 	data object Cards: Screen()
+	@Serializable
+	data object Auth: Screen()
 
 
 

@@ -1,6 +1,7 @@
 package com.beknur.sausaq
 
 import android.app.Application
+import com.beknur.auth.di.AuthModule
 import com.beknur.catalog.di.СatalogModule
 import com.beknur.navigation.di.NavigationModule
 import com.beknur.product.di.ProductModule
@@ -22,7 +23,8 @@ class TandaApplication:Application() {
 					NavigationModule,
 					ProductModule,
 					ProductDetailModule,
-					ProfileModule
+					ProfileModule,
+					AuthModule
 				)
 			)
 		}

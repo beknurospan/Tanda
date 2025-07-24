@@ -3,6 +3,7 @@ package com.beknur.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 val GreenDark=Color(0xFF99FB43)
+val BlackOption=Color(0xFF979797)
 val Green= Color(0xFF0EEB0A)
 val Ocean=Color (0xFFB2E4E4)
 val Gray=Color(0xFFF3F3F3)
