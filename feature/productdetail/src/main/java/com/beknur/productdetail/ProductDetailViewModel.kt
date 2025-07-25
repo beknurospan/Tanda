@@ -1,5 +1,6 @@
 package com.beknur.productdetail
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.beknur.navigation.NavigationManager
@@ -11,6 +12,10 @@ import kotlinx.coroutines.launch
 class ProductDetailViewModel(
 	private val navigationManager: NavigationManager
 ): ViewModel() {
+
+	init {
+		Log.d("viewmodel","detail")
+	}
 
 	private val _viewState= MutableStateFlow<ProductDetialViewState>(ProductDetialViewState(""))
 	val viewState=_viewState.asStateFlow()

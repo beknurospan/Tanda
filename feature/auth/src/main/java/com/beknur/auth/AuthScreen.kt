@@ -110,6 +110,11 @@ fun AuthScreen(
 						)
 					}
 				} else {
+					BackHandler(true) {
+						sendUiEvent(
+							AuthUiEvent.OnBackClick
+						)
+					}
 					PhoneTextField(phoneNumber = viewState.phoneNumber) { number->
 						sendUiEvent(
 							AuthUiEvent.OnPhoneNumberChanged(number)

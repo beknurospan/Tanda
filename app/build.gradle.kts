@@ -86,5 +86,6 @@ dependencies {
 	implementation(project(":feature:search"))
 	implementation(project(":feature:searchmap"))
 	implementation(project(":core:navigation"))
+	implementation(project(":core:domain"))
 
 }

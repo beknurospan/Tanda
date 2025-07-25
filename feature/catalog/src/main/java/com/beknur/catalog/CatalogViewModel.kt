@@ -19,6 +19,10 @@ class CatalogViewModel(
 	private val navigationManager: NavigationManager
 ):ViewModel() {
 
+	init {
+		Log.d("viewmodel","каталог")
+	}
+
 	private val _viewState= MutableStateFlow<CatalogViewState>(CatalogViewState(ProductCategoryInfo.categoriesMen,1))
 	val viewState=_viewState.asStateFlow()
 

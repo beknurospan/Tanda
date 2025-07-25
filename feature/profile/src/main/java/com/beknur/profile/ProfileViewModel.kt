@@ -3,23 +3,49 @@ package com.beknur.profile
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.beknur.domain.AuthUseCase
+import com.beknur.domain.AuthUseCase.Auth.Companion.isAuth
+
 import com.beknur.navigation.NavigationManager
 import com.beknur.navigation.Screen
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
-	private val navigationManager: NavigationManager
-): ViewModel() {
-
-	private val _viewState= MutableStateFlow<ProfileViewState>(ProfileViewState("","",false,LangParamsUI.RUS))
-	val viewState=_viewState.asStateFlow()
+	private val navigationManager: NavigationManager,
+	private val authUseCase: AuthUseCase
+) : ViewModel() {
 
 
-	fun handleEvent(event: ProfileUiEvent){
-		when(event){
+	init {
+		Log.d("viewmodel","вызов")
+		viewModelScope.launch {
+			while (true){
+				delay(2000)
+				Log.d("viewmodel","launch")
+				val isAuth = authUseCase.isAuth()
+				_viewState.update { it.copy(isAuth=isAuth) }
+			}
+		}
+	}
+
+
+	private val _viewState = MutableStateFlow<ProfileViewState>(
+		ProfileViewState(
+			"",
+			"",
+			isAuth = false,
+			LangParamsUI.RUS
+		)
+	)
+	val viewState = _viewState.asStateFlow()
+
+
+	fun handleEvent(event: ProfileUiEvent) {
+		when (event) {
 			ProfileUiEvent.OnAboutAppClick -> onAboutAppClick()
 			ProfileUiEvent.OnAddressClick -> onAddressClick()
 			ProfileUiEvent.OnCardsClick -> onCardsClick()
@@ -32,47 +58,56 @@ class ProfileViewModel(
 		}
 
 	}
-	fun onAboutAppClick(){
+
+	fun onAboutAppClick() {
 		viewModelScope.launch {
-			Log.d("deb","cli")
+			Log.d("deb", "cli")
 			navigationManager.navigate(Screen.AboutApp)
 		}
 	}
-	fun onAddressClick(){
+
+	fun onAddressClick() {
 		viewModelScope.launch {
 			navigationManager.navigate(Screen.Address)
 		}
 	}
-	fun onCardsClick(){
+
+	fun onCardsClick() {
 		viewModelScope.launch {
 			navigationManager.navigate(Screen.Cards)
 		}
 	}
-	fun onLogoutClick(){
+
+	fun onLogoutClick() {
 		_viewState.update { it.copy(isAuth = false) }
 	}
-	fun onNotificationClick(){
+
+	fun onNotificationClick() {
 		viewModelScope.launch {
 			navigationManager.navigate(Screen.Notifications)
 		}
 	}
-	fun onOrderClick(){
+
+	fun onOrderClick() {
 		viewModelScope.launch {
 			navigationManager.navigate(Screen.Orders)
 		}
 	}
-	fun onSupportClick(){
+
+	fun onSupportClick() {
 		viewModelScope.launch {
 			navigationManager.navigate(Screen.Support)
 		}
 	}
-	fun onAuthClick(){
+
+	fun onAuthClick() {
 		viewModelScope.launch {
-			navigationManager.navigate(Screen.Auth)
+			navigationManager.navigateHideBottom(Screen.Auth)
 		}
 	}
-	fun onLangChanged(selectedLang:LangParamsUI){
-		when(selectedLang){
+
+	fun onLangChanged(selectedLang: LangParamsUI) {
+		when (selectedLang) {
 			LangParamsUI.KZ -> _viewState.update { it.copy(currentLang = LangParamsUI.KZ) }
 			LangParamsUI.RUS -> _viewState.update { it.copy(currentLang = LangParamsUI.RUS) }
 		}
