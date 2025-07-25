@@ -2,6 +2,7 @@ plugins {
 	alias(libs.plugins.com.beknur.library.compose)
 	alias(libs.plugins.com.beknur.feature)
 
+
 }
 
 android {

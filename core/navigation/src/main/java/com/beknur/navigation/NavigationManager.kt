@@ -12,7 +12,13 @@ class NavigationManager {
 		_commands.emit(NavigationCommand.Navigate(screen))
 	}
 
-	suspend fun back() {
-		_commands.emit(NavigationCommand.Back)
+	suspend fun backShowBottom(screen: NavKey) {
+		_commands.emit(NavigationCommand.BackShowBottom(screen))
+	}
+	suspend fun navigateHideBottom(screen: NavKey){
+		_commands.emit(NavigationCommand.NavigateHideBottom(screen))
+	}
+	suspend fun popUntilNavigate(currentScreen: NavKey,screenNavigate:NavKey){
+		_commands.emit(NavigationCommand.PopUntilNavigate(currentScreen,screenNavigate))
 	}
 }

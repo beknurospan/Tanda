@@ -7,6 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
@@ -34,15 +35,34 @@ import com.beknur.productdetail.ProductDetailViewModel
 import com.beknur.profile.ProfileScreen
 import com.beknur.profile.ProfileScreenRoute
 import com.beknur.profile.ProfileViewModel
+import com.beknur.sausaq.MainViewModel
 import com.beknur.search.SearchScreen
 import com.beknur.searchmap.SearchMapScreen
 import com.beknur.support.SupportScreen
 import org.koin.androidx.compose.koinViewModel
 
+import java.util.Map.entry
+
 @Composable
-fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager){
+fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager,mainViewModel : MainViewModel){
 
 	key(backStack) {
+		fun navigate(screen: NavKey){
+			backStack.add(screen)
+		}
+		fun backShowBottom(screen: NavKey){
+			backStack.remove(screen)
+			mainViewModel.setBottomBarVisibility(true)
+		}
+		fun navigateHideBottom(screen: NavKey){
+			backStack.add(screen)
+			mainViewModel.setBottomBarVisibility(false)
+		}
+		fun popUntilNavigate(currentScreen: NavKey,screenNavigate: NavKey){
+			backStack.clear()
+			backStack.add(screenNavigate)
+			mainViewModel.setBottomBarVisibility(true)
+		}
 		NavDisplay(
 			entryProvider = entryProvider {
 				entry<Screen.Home> {
@@ -104,10 +124,17 @@ fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager){
 		LaunchedEffect(Unit) {
 			navigationManager.commands.collect {
 				when (it) {
-					NavigationCommand.Back -> Unit
-					is NavigationCommand.Navigate -> backStack.add(it.screen)
+
+					is NavigationCommand.Navigate -> navigate(it.screen)
+					is NavigationCommand.BackShowBottom -> backShowBottom(it.screen)
+					is NavigationCommand.NavigateHideBottom-> navigateHideBottom(it.screen)
+					is NavigationCommand.PopUntilNavigate -> popUntilNavigate(it.currentScreen,it.screenNavigate)
 				}
 			}
+
 		}
+
+
 	}
+
 }
