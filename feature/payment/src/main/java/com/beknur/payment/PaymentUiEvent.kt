@@ -1,4 +1,6 @@
 package com.beknur.payment
 
-interface PaymentUiEvent {
+sealed interface PaymentUiEvent {
+	data object OnChangeAddressClick:PaymentUiEvent
+	data object OnAddCardClick:PaymentUiEvent
 }

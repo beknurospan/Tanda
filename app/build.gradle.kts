@@ -1,3 +1,6 @@
+
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
 	alias(libs.plugins.com.beknur.application)
 	alias(libs.plugins.com.beknur.application.compose)
@@ -36,14 +39,15 @@ android {
 		sourceCompatibility = JavaVersion.VERSION_11
 		targetCompatibility = JavaVersion.VERSION_11
 	}
-	kotlinOptions {
-		jvmTarget = "11"
-	}
 	buildFeatures {
 		compose = true
 	}
 }
-
+kotlin {
+	compilerOptions {
+		jvmTarget.set(JvmTarget.JVM_11)
+	}
+}
 dependencies {
 	implementation(libs.navigation3.ui)
 	implementation(libs.navigation3.runtime)
@@ -87,5 +91,11 @@ dependencies {
 	implementation(project(":feature:searchmap"))
 	implementation(project(":core:navigation"))
 	implementation(project(":core:domain"))
+	implementation(project(":core:database"))
+	implementation(project(":core:common"))
+	implementation(project(":core:data"))
+	implementation(project(":core:network"))
 
 }
+
+

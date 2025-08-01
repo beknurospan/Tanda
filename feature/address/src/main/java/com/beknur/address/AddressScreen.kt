@@ -15,23 +15,34 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.beknur.designsystem.ui.TndButton
 
 
 @Preview
 @Composable
 fun AddressScreenPreview() {
-	AddressScreen()
+	AddressScreen(viewState = AddressViewState(""),{})
 }
 
+@Composable
+fun AddressScreenRoute(viewModel: AddressViewModel){
+		val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+		AddressScreen(viewState,viewModel::handleEvent)
+}
 
 @Composable
-fun AddressScreen() {
+fun AddressScreen(
+	viewState: AddressViewState,
+	sendUiEvent: (AddressUiEvent)->Unit
+) {
 	Box(
 		modifier = Modifier
 			.fillMaxSize()

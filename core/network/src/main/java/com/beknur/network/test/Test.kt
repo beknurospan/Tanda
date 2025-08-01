@@ -1,42 +1,26 @@
 package com.beknur.network.test
 
-import com.beknur.network.HttpClientProvider.client
-import com.beknur.network.api.DgisApiImpl
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
+import com.beknur.network.NetworkModule
+import com.beknur.network.api.DgisApi
+import com.beknur.network.api.ProductApi
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-
-
-import kotlinx.coroutines.*
+import org.koin.core.context.GlobalContext
+import org.koin.core.context.startKoin
+import org.koin.java.KoinJavaComponent.inject
+import org.koin.mp.KoinPlatform.getKoin
 
 fun main() = runBlocking {
-	val api = DgisApiImpl(client)
+	startKoin { modules(NetworkModule) }
 
-	val deferred = async(Dispatchers.IO) {
-		println("⚡ Старт main()")
-		try {
-			val results = api.fetchSuggestions("Саялы 24")
-			println("✅ Получено результатов: ${results.size}")
-			results.forEachIndexed { index, item ->
-				println("Result #$index")
-				println("Full name: ${item.fullName}")
-				println("Address name: ${item.addressName}")
-				println("---------")
-			}
-		} catch (e: Exception) {
-			println("мок")
-			println("❌ Ошибка: ${e.message}")
-			e.printStackTrace()
-		} finally {
-			println("мок2")
-			client.close()
-		}
-	}
-
-	deferred.await() // дождаться выполнения
+	val Api = GlobalContext.get().get<ProductApi>()
+	val Api2 = GlobalContext.get().get<DgisApi>()
+	MyFeature(Api2).run()
 }
 
+class MyFeature(private val api: DgisApi) {
+	suspend fun run() {
+		val result = api.fetchSuggestions("Сатпаев")
+		println(result)
+	}
+}
