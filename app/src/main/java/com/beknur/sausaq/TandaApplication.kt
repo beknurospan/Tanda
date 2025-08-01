@@ -15,6 +15,7 @@ import com.beknur.productdetail.di.ProductDetailModule
 import com.beknur.profile.di.ProfileModule
 import com.beknur.sausaq.di.AppModule
 import com.beknur.data.di.DataModule
+import com.beknur.network.NetworkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 
