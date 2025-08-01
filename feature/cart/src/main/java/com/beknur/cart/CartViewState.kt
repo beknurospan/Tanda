@@ -1,3 +1,11 @@
 package com.beknur.cart
 
-data class CartViewState(val data:String)
+
+import com.beknur.domain.model.CartProduct
+
+data class CartViewState(
+	val products:List<CartProduct>,
+	val isAllSelected:Boolean,
+	val selectedCount:Int,
+	val amount:Int
+)

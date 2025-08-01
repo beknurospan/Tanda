@@ -14,9 +14,13 @@ import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.beknur.about_app.AboutAppScreen
 import com.beknur.address.AddressScreen
+import com.beknur.address.AddressScreenRoute
+import com.beknur.address.AddressViewModel
 import com.beknur.auth.AuthViewModel
 import com.beknur.cards.CardsScreen
 import com.beknur.cart.CartScreen
+import com.beknur.cart.CartScreenRoute
+import com.beknur.cart.CartViewModel
 import com.beknur.catalog.CatalogScreen
 import com.beknur.catalog.CatalogScreenRoute
 import com.beknur.catalog.CatalogViewModel
@@ -26,6 +30,8 @@ import com.beknur.navigation.NavigationManager
 import com.beknur.navigation.Screen
 import com.beknur.notifications.NotificationScreen
 import com.beknur.orders.OrdersScreen
+import com.beknur.payment.PaymentScreenRoute
+import com.beknur.payment.PaymentViewModel
 import com.beknur.product.ProductScreen
 import com.beknur.product.ProductScreenRoute
 import com.beknur.product.ProductViewModel
@@ -81,7 +87,10 @@ fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager,mainV
 					val viewModel = koinViewModel<ProductViewModel>()
 					ProductScreenRoute(viewModel)
 				}
-				entry<Screen.Cart> { CartScreen() }
+				entry<Screen.Cart> {
+					val viewModel= koinViewModel<CartViewModel>()
+					CartScreenRoute(viewModel)
+				}
 				entry<Screen.ProductDetail> {
 					val viewModel = koinViewModel<ProductDetailViewModel>()
 					ProductDetailRoute(viewModel)
@@ -92,7 +101,8 @@ fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager,mainV
 					ProfileScreenRoute(viewModel)
 				}
 				entry<Screen.Address> {
-					AddressScreen()
+					val viewModel = koinViewModel<AddressViewModel>()
+					AddressScreenRoute(viewModel)
 				}
 				entry<Screen.Cards> {
 					CardsScreen()
@@ -112,6 +122,10 @@ fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager,mainV
 				entry<Screen.Auth>{
 					val viewModel = koinViewModel<AuthViewModel>()
 					AuthScreenRoute(viewModel)
+				}
+				entry<Screen.Payment>{
+					val viewModel= koinViewModel<PaymentViewModel>()
+					PaymentScreenRoute(viewModel)
 				}
 
 			},

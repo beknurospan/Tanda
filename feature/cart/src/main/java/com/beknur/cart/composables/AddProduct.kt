@@ -1,6 +1,7 @@
 package com.beknur.cart.composables
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.beknur.cart.R
+import com.beknur.designsystem.theme.Green
 import com.beknur.designsystem.theme.GreenDark
 import com.beknur.designsystem.theme.WhiteAdd
 import com.beknur.designsystem.theme.WhiteGray
@@ -39,7 +41,20 @@ import com.beknur.designsystem.ui.ProductDetailCard
 
 
 @Composable
-fun AddProduct() {
+fun AddProduct(
+	isSelected: Boolean,
+	detailText: String,
+	brandName: String,
+	size: String,
+	pricePerOne: String,
+	sum: String,
+	count: String,
+	onAddProduct: () -> Unit,
+	onDelProduct: () -> Unit,
+	onSelect: () -> Unit
+) {
+
+
 	Row(
 		modifier = Modifier
 			.height(200.dp)
@@ -50,7 +65,6 @@ fun AddProduct() {
 		verticalAlignment = Alignment.CenterVertically,
 
 		) {
-
 		Row(
 			modifier = Modifier.padding(10.dp),
 			horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -64,32 +78,55 @@ fun AddProduct() {
 					.background(WhiteGray),
 				contentScale = ContentScale.Fit
 			)
-			Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-				Row {
+			Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+				Row(modifier = Modifier.height(120.dp)) {
 					Column(
 						modifier = Modifier
 							.weight(1f),
-						verticalArrangement = Arrangement.spacedBy(10.dp),
+						verticalArrangement = Arrangement.spacedBy(5.dp),
 
 						) {
-
-						Text("Кроссовки чепныеxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx L.DARK")
-						Text("RUS 38")
-						Text("2777 тг/шт")
+						Spacer(modifier = Modifier.height(2.dp))
+						Text(
+							detailText + "saaaaaaaaaaaaaaaaa dsssssssssssssdddddddddd",
+							maxLines = 2
+						)
+						Spacer(modifier = Modifier.weight(1f))
+						Text(brandName)
+						Text(size)
+						Text("$pricePerOne/шт")
 
 
 					}
 					Column {
-						Box(modifier = Modifier.size(40.dp), contentAlignment = Alignment.TopEnd) {
+						Box(
+							modifier = Modifier
+								.size(40.dp)
+								.clickable { onSelect.invoke() },
+							contentAlignment = Alignment.TopEnd
+						) {
+
 							Icon(
 								modifier = Modifier.size(20.dp),
 								imageVector = ImageVector.vectorResource(com.beknur.designsystem.R.drawable.ellipse_99),
-								contentDescription = null
+								contentDescription = null,
+								tint = if (isSelected) Green else Color.Black
 							)
+							if (isSelected) {
+								Icon(
+									modifier = Modifier
+										.size(20.dp)
+										.padding(5.dp),
+									imageVector = ImageVector.vectorResource(com.beknur.designsystem.R.drawable.line_1),
+									contentDescription = null
+								)
+							}
+
 						}
 					}
 
 				}
+				Spacer(modifier = Modifier.weight(1f))
 				Row {
 					Row(
 						modifier = Modifier
@@ -98,14 +135,14 @@ fun AddProduct() {
 							.background(color = GreenDark),
 						verticalAlignment = Alignment.CenterVertically
 					) {
-						IconButton({}) {
+						IconButton({ onDelProduct.invoke() }) {
 							Icon(
 								imageVector = ImageVector.vectorResource(com.beknur.designsystem.R.drawable.trash_light),
 								contentDescription = null
 							)
 						}
-						Text("2")
-						IconButton({}) {
+						Text(count)
+						IconButton({ onAddProduct.invoke() }) {
 							Icon(
 								imageVector = ImageVector.vectorResource(com.beknur.designsystem.R.drawable.add_light),
 								contentDescription = null
@@ -118,18 +155,15 @@ fun AddProduct() {
 							.height(40.dp)
 							.fillMaxWidth()
 							.padding(10.dp)
-							.clip(RoundedCornerShape(4.dp))
-
-
-						,
+							.clip(RoundedCornerShape(4.dp)),
 						contentAlignment = Alignment.Center
 					) {
-						Text("2800000 тг")
+						Text("$sum ₸")
 					}
 
 
-
 				}
+				Spacer(modifier = Modifier.height(2.dp))
 
 
 			}
@@ -146,5 +180,5 @@ fun AddProduct() {
 @Preview
 @Composable
 fun AddProductPreview() {
-	AddProduct()
+	AddProduct(true, "Кроссовки американские", "Dardas", "42", "2888", "28500", "12", {}, {}, {})
 }

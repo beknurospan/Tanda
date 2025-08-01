@@ -1,6 +1,7 @@
 package com.beknur.cart.composables
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 
 import androidx.compose.foundation.layout.Row
@@ -19,17 +20,18 @@ import androidx.compose.ui.unit.dp
 import com.beknur.designsystem.theme.Green
 
 @Composable
-fun PayButton(modifier: Modifier) {
+fun PayButton(amount:String,selectedCount:String,modifier: Modifier,onClick:()->Unit) {
 	Row(
 		modifier = modifier
 			.fillMaxWidth()
 			.background(Green, shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
+			.clickable { onClick.invoke() }
 			.padding(vertical = 22.dp, horizontal = 16.dp)
 	) {
 		Text("Перейти к оплате", color = Color.White)
 		Spacer(modifier = Modifier.weight(1f))
-		Text("1 товар", color = Color.White)
+		Text("$selectedCount выбранных товара", color = Color.White)
 		Spacer(modifier = Modifier.width(8.dp))
-		Text("2175 ₸", color = Color.White)
+		Text("$amount ₸", color = Color.White)
 	}
 }
