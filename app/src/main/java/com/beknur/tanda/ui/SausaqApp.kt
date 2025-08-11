@@ -1,4 +1,4 @@
-package com.beknur.sausaq.ui
+package com.beknur.tanda.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
@@ -12,12 +12,8 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -31,14 +27,14 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import com.beknur.navigation.NavigationManager
 
 
-import com.beknur.sausaq.navigation.BottomBarScreen
-import com.beknur.sausaq.navigation.BottomBarScreenSaver
-import com.beknur.sausaq.navigation.RootGraph
+import com.beknur.tanda.navigation.BottomBarScreen
+import com.beknur.tanda.navigation.BottomBarScreenSaver
+import com.beknur.tanda.navigation.RootGraph
 import com.beknur.navigation.Screen
-import com.beknur.sausaq.MainViewModel
+import com.beknur.tanda.MainViewModel
 
 
-import com.beknur.sausaq.navigation.bottomBarItems
+import com.beknur.tanda.navigation.bottomBarItems
 import org.koin.compose.koinInject
 
 

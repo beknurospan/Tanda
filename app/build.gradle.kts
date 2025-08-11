@@ -1,4 +1,5 @@
 
+import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -8,14 +9,18 @@ plugins {
 	alias(libs.plugins.kotlin.compose)
 	alias(libs.plugins.kotlin.serialization)
 	alias(libs.plugins.com.beknur.koin)
+	id("com.google.gms.google-services")
+	id("com.google.firebase.crashlytics")
+	id("com.google.firebase.firebase-perf")
+
 }
 
 android {
-	namespace = "com.beknur.sausaq"
+	namespace = "com.beknur.tanda"
 	compileSdk = 36
 
 	defaultConfig {
-		applicationId = "com.beknur.sausaq"
+		applicationId = "com.beknur.tanda"
 		minSdk = 28
 		targetSdk = 36
 		versionCode = 1
@@ -49,6 +54,12 @@ kotlin {
 	}
 }
 dependencies {
+	implementation(platform(libs.firebase.bom.v3410))
+	implementation(libs.google.firebase.analytics)
+	implementation(libs.firebase.crashlytics)
+	implementation(libs.firebase.perf)
+	implementation(libs.firebase.config)
+	implementation(libs.firebase.messaging)
 	implementation(libs.navigation3.ui)
 	implementation(libs.navigation3.runtime)
 	implementation(libs.lifecycle.viewmodel.navigation3)

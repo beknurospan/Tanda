@@ -1,11 +1,7 @@
-package com.beknur.sausaq.navigation
+package com.beknur.tanda.navigation
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.saveable.Saver
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation3.runtime.NavKey
-import com.beknur.sausaq.R
 import com.beknur.designsystem.R as coreR
 import kotlinx.serialization.Serializable
 

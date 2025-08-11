@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "72022355940",
+    "project_id": "tanda-74066",
+    "storage_bucket": "tanda-74066.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72022355940:android:b0be3e5021033aebf961f1",
+        "android_client_info": {
+          "package_name": "com.beknur.tanda"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0_yZlua43MrGQat57SoFEkEGqRchkEZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

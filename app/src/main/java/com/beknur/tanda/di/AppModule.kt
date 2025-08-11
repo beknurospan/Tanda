@@ -1,6 +1,6 @@
-package com.beknur.sausaq.di
+package com.beknur.tanda.di
 
-import com.beknur.sausaq.MainViewModel
+import com.beknur.tanda.MainViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 

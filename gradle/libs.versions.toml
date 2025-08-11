@@ -7,6 +7,7 @@ coilCompose = "2.7.0"
 datastore = "1.1.7"
 datastorePreferences = "1.1.7"
 detektGradlePlugin = "1.23.6"
+firebaseBomVersion = "34.1.0"
 gradle = "8.4.2"
 
 coreKtx = "1.16.0"
@@ -111,6 +112,12 @@ androidx-datastore-v117 = { module = "androidx.datastore:datastore", version.ref
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 coil-compose-v250 = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 
+firebase-bom-v3410 = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBomVersion" }
+firebase-config = { module = "com.google.firebase:firebase-config" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
+firebase-perf = { module = "com.google.firebase:firebase-perf" }
+google-firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 kotlinx-serialization-core-v173 = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCoreVersion" }
 kotlinx-serialization-protobuf = { module = "org.jetbrains.kotlinx:kotlinx-serialization-protobuf", version.ref = "kotlinxSerializationProtobuf" }
 material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
@@ -196,11 +203,10 @@ androidx-work-testing = { group = "androidx.work", name = "work-testing", versio
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 coil-kt-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
-firebase-cloud-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
-firebase-performance = { group = "com.google.firebase", name = "firebase-perf" }
+
+
 
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }

@@ -22,7 +22,7 @@ dependencyResolutionManagement {
 	}
 }
 
-rootProject.name = "Sausaq"
+rootProject.name = "Tanda"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")

@@ -1,4 +1,4 @@
-package com.beknur.sausaq
+package com.beknur.tanda
 
 import android.app.Application
 import com.beknur.address.di.AddressModule
@@ -13,7 +13,7 @@ import com.beknur.payment.di.PaymentModule
 import com.beknur.product.di.ProductModule
 import com.beknur.productdetail.di.ProductDetailModule
 import com.beknur.profile.di.ProfileModule
-import com.beknur.sausaq.di.AppModule
+import com.beknur.tanda.di.AppModule
 import com.beknur.data.di.DataModule
 import com.beknur.datastore.di.DataStoreModule
 import com.beknur.network.NetworkModule
