@@ -2,13 +2,13 @@ package com.beknur.cart
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.beknur.cart.data.ProductItem
-import com.beknur.domain.model.CartProduct
 import com.beknur.domain.repository.CartRepository
 import com.beknur.navigation.NavigationManager
 import com.beknur.navigation.Screen
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -20,17 +20,26 @@ class CartViewModel(
 ) {
 
 	private val _viewState = MutableStateFlow(
-		CartViewState(emptyList(), true, 0, 0)
+		CartViewState(
+			emptyList(),
+			true,
+			0,
+			0,
+			0,
+			showBottomSheet = false
+		)
 	)
 	val viewState = _viewState.asStateFlow()
 
 	init {
 		observeProducts()
+
 	}
 
 	private fun observeProducts() {
+
 		viewModelScope.launch {
-			cartRepository.getCartItems().collect { newProducts->
+			cartRepository.getCartItems().collect { newProducts ->
 				_viewState.update {
 					val products = newProducts
 					it.copy(
@@ -50,11 +59,18 @@ class CartViewModel(
 			CartUiEvent.OnSelectAllClick -> onSelectAllClick()
 			CartUiEvent.OnTrashClick -> onTrashClick()
 			is CartUiEvent.OnAddProduct -> onProductAdd(event.id)
-			is CartUiEvent.OnDelProduct -> onProductDel(event.id)
-			is CartUiEvent.OnSelectProductClick -> onSelectProductClick(event.id)
+			is CartUiEvent.OnDelProduct -> onProductDel(event.id,event.skuId)
+			is CartUiEvent.OnSelectProductClick -> onSelectProductClick(event.id,event.skuId)
+			CartUiEvent.OnDismissBottomSheet -> onDissmissBottomSheet()
+			is CartUiEvent.OnSizeSelected -> onSizeSelect(event.id,event.skuId)
 		}
 	}
 
+	private fun onDissmissBottomSheet() {
+		_viewState.update {
+			it.copy(showBottomSheet = false)
+		}
+	}
 
 	private fun onPayButtonClick() {
 		viewModelScope.launch {
@@ -67,27 +83,52 @@ class CartViewModel(
 			cartRepository.selectAll()
 		}
 
-}
+	}
+
 	private fun onTrashClick() {
 		viewModelScope.launch {
 			cartRepository.deleteSelected()
 		}
 	}
+
 	private fun onProductAdd(id: Int) {
 		viewModelScope.launch {
-			cartRepository.incrementItem(id)
+			_viewState.update {
+				it.copy(openedProductId = id, showBottomSheet = true,productVariants = Loadable.Loading)
+			}
+			delay(700)
+			try {
+				val result = cartRepository.getProductType(id)
+				_viewState.update {
+					it.copy(productVariants = Loadable.Success(result.variants))
+				}
+			} catch (e: Exception) {
+				_viewState.update {
+					it.copy(productVariants = Loadable.Error(e.message.toString()))
+				}
+			}
 		}
 	}
 
-	private fun onProductDel(id: Int) {
+	private fun onProductDel(id: Int,skuId: Int) {
 		viewModelScope.launch {
-			cartRepository.decrementItem(id)
+			cartRepository.decrementItem(id, skuId = skuId)
 		}
 	}
 
-	private fun onSelectProductClick(id: Int) {
+	private fun onSelectProductClick(id: Int,skuId: Int) {
 		viewModelScope.launch {
-			cartRepository.toggleSelect(id)
+			cartRepository.toggleSelect(id,skuId)
+		}
+	}
+	private fun onSizeSelect(id: Int, skuId: Int){
+		viewModelScope.launch {
+			_viewState.update {
+				it.copy(showBottomSheet = false, productVariants = Loadable.Idle)
+			}
+			val product = cartRepository.getProduct(id, skuId).first()
+			cartRepository.insertOrAdd(product)
+
 		}
 	}
 

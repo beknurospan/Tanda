@@ -1,30 +1,47 @@
 package com.beknur.network.api
 
-import com.beknur.network.model.ProductResponse
-import com.beknur.network.model.SuggestItem
+
+import com.beknur.network.model.ProductDto
+import com.beknur.network.model.ProductTypesDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.put
-import io.ktor.http.HttpMethod
+import io.ktor.client.request.parameter
 import io.ktor.http.encodedPath
-import io.ktor.http.path
-import org.koin.core.qualifier.named
-import org.koin.mp.KoinPlatform.getKoin
 
 interface ProductApi {
-	suspend fun fetchName(): String
+	suspend fun getProductType(id:Int): ProductTypesDto
+	suspend fun getProduct(id:Int,skuId: Int): ProductDto
 }
 
 
 class ProductApiImpl(private val client: HttpClient) : ProductApi {
-	override suspend fun fetchName(): String {
-		val response: ProductResponse = client.get {
+	override suspend fun getProductType(id:Int): ProductTypesDto {
+		val response: ProductTypesDto = client.get {
 			url {
-				encodedPath="names"
+				encodedPath="product/variants"
 			}
+			parameter("id",id)
+
 		}.body()
-		return response.name
+		return response
+	}
+
+	override suspend fun getProduct(id: Int,skuId:Int): ProductDto {
+		val response: ProductDto = client.get {
+			url{
+				encodedPath="product"
+			}
+			parameter("id",id)
+			parameter("sku_id",skuId)
+		}.body()
+		return response
 	}
 
 }
+
+
+
+
+
+

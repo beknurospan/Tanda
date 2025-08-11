@@ -6,19 +6,19 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class DgisSuggestResponse(
+data class TwoGisResponseDto(
 	@SerialName("result")
-	val result: DgisResult
+	val result: TwoGisResultDto? = null
 )
 
 @Serializable
-data class DgisResult(
+data class TwoGisResultDto(
 	@SerialName("items")
-	val items: List<SuggestItem>
+	val items: List<MySearchResultDto>?=null
 )
 
 @Serializable
-data class SuggestItem(
+data class MySearchResultDto(
 	@SerialName("full_name")
 	val fullName: String? = null,
 

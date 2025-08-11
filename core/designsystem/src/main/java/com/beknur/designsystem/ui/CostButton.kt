@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.beknur.designsystem.theme.CustomTypography
 import com.beknur.designsystem.theme.GreenDark
 import com.beknur.designsystem.R as coreR
 
@@ -34,11 +33,11 @@ fun CostButton(text: String,modifier: Modifier=Modifier) {
 	) {
 		Text(
 			text,
-			style = CustomTypography.Typography
+
 		)
 		Text(
 			text = "KZT",
-			fontFamily = CustomTypography.PoppinsFontFamily
+
 		)
 		Icon(
 			imageVector = ImageVector.vectorResource(coreR.drawable.shopicons_regular_hangtag),

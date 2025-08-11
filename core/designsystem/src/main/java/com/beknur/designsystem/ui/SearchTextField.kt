@@ -1,5 +1,6 @@
 package com.beknur.designsystem.ui
 
+import android.R.attr.singleLine
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,7 +37,7 @@ fun SearchTextField(
 	OutlinedTextField(
 		enabled = isEnabled,
 		value = value,
-		onValueChange = onValueChange,
+		onValueChange = {text-> onValueChange(text)},
 		modifier = Modifier
 			.then(clickableModifier)
 			.fillMaxWidth()
