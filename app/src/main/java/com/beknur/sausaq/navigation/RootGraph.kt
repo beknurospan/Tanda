@@ -56,6 +56,11 @@ fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager,mainV
 		fun navigate(screen: NavKey){
 			backStack.add(screen)
 		}
+		fun navigateBack(){
+			if (backStack.isNotEmpty()) {
+				backStack.removeAt(backStack.lastIndex)
+			}
+		}
 		fun backShowBottom(screen: NavKey){
 			backStack.remove(screen)
 			mainViewModel.setBottomBarVisibility(true)
@@ -143,6 +148,7 @@ fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager,mainV
 					is NavigationCommand.BackShowBottom -> backShowBottom(it.screen)
 					is NavigationCommand.NavigateHideBottom-> navigateHideBottom(it.screen)
 					is NavigationCommand.PopUntilNavigate -> popUntilNavigate(it.currentScreen,it.screenNavigate)
+					NavigationCommand.NavigateBack -> navigateBack()
 				}
 			}
 

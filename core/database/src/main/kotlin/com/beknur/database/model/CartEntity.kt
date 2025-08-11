@@ -5,10 +5,11 @@ import androidx.room.PrimaryKey
 
 @Entity(
 	tableName = "cart",
+	primaryKeys = ["productId", "skuId"]
 )
 data class CartEntity(
-	@PrimaryKey
 	val productId:Int,
+	val skuId: Int,
 	val isSelected: Boolean,
 	val detailText: String,
 	val brandName: String,

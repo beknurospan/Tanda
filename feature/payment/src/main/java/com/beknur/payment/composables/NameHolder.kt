@@ -21,7 +21,7 @@ import com.beknur.designsystem.ui.TndButton
 
 
 @Composable
-fun NameHolder(name: String) {
+fun NameHolder(name: String,onClick:()->Unit) {
 	val isNameExist = name.isNotBlank()
 
 	Column(
@@ -39,7 +39,7 @@ fun NameHolder(name: String) {
 		)
 		if (!isNameExist) {
 			Button (
-				onClick = {},
+				onClick = {onClick.invoke()},
 				modifier = Modifier.fillMaxWidth(),
 				shape = RoundedCornerShape(4.dp),
 				colors = ButtonColors(Color.Gray, WhiteAdd, Color.Gray, WhiteAdd)
@@ -54,6 +54,6 @@ fun NameHolder(name: String) {
 @Preview
 @Composable
 fun NameHolderPreview() {
-	NameHolder("")
+	NameHolder(""){}
 
 }

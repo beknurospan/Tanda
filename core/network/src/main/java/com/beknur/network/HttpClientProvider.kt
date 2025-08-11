@@ -9,17 +9,12 @@ import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.request.header
-import io.ktor.http.ContentType.Application.Json
 import io.ktor.http.URLProtocol
 import io.ktor.http.encodedPath
-import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-
-
 
 
 fun createHttpClient(configure: HttpClientConfig<*>.() -> Unit): HttpClient {
@@ -36,6 +31,10 @@ fun createHttpClient(configure: HttpClientConfig<*>.() -> Unit): HttpClient {
 		configure()
 	}
 }
+
+
+
+
 
 val NetworkModule = module {
 
@@ -56,8 +55,8 @@ val NetworkModule = module {
 			defaultRequest {
 				url {
 					protocol = URLProtocol.HTTP
-					host = "localhost"
-					port=8080
+					host = "10.0.2.2"
+					port=3050
 					encodedPath="/api/v1/"
 				}
 			}

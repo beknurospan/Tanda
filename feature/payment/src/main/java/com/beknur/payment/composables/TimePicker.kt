@@ -43,8 +43,8 @@ val TIME_SLOTS = listOf(
 
 
 @Composable
-fun TimePicker() {
-	var selectedTime by remember { mutableStateOf<String?>(null) }
+fun TimePicker(onButtonClick:(String)->Unit) {
+	var selectedTime by remember { mutableStateOf<String>("") }
 
 	Column(
 		modifier = Modifier
@@ -70,7 +70,8 @@ fun TimePicker() {
 			}
 		}
 
-		TndButton(isEnabled = true, onClick = {}, "Применить", modifier = Modifier.fillMaxWidth())
+		val isButtonEnabled= selectedTime.isNotBlank()
+		TndButton(isEnabled = isButtonEnabled, onClick = {onButtonClick.invoke(selectedTime.toString())}, "Применить", modifier = Modifier.fillMaxWidth())
 	}
 }
 
@@ -78,5 +79,5 @@ fun TimePicker() {
 @Preview
 @Composable
 fun TimePickerPreview() {
-	TimePicker()
+	TimePicker(){}
 }

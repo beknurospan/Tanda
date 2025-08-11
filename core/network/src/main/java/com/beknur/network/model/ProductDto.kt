@@ -4,7 +4,38 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ProductResponse(
-	@SerialName("name")
-	val name: String
+data class ProductTypesDto(
+	@SerialName("product_variants")
+	val variants: List<ProductVariantDto>
+)
+
+
+@Serializable
+data class ProductVariantDto(
+	@SerialName("sku_id")
+	val skuId: Int,
+	@SerialName("size")
+	val size: Int,
+)
+
+
+@Serializable
+data class ProductDto(
+	@SerialName("product_id")
+	val productId: Int,
+
+	@SerialName("sku_id")
+	val skuId: Int,
+
+	@SerialName("detail_text")
+	val detailText: String,
+
+	@SerialName("brand_name")
+	val brandName: String,
+
+	@SerialName("size")
+	val size: String,
+
+	@SerialName("price_per_one")
+	val pricePerOne: Int,
 )

@@ -10,4 +10,5 @@ object TndMigrations {
 		columnName = "sum",
 	)
 	class Schema1to2 : AutoMigrationSpec
+
 }

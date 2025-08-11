@@ -1,5 +1,6 @@
 package com.beknur.payment.composables
 
+import android.R.attr.onClick
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,12 +17,12 @@ import androidx.compose.ui.unit.dp
 @Preview
 @Composable
 fun TimeHolderPreview() {
-	TimeHolder("08:00-10:00")
+	TimeHolder("08:00-10:00"){}
 }
 
 
 @Composable
-fun TimeHolder(timeRange:String) {
+fun TimeHolder(timeRange:String,onClick:()->Unit) {
 	Column(modifier = Modifier
 		.fillMaxWidth()
 		.background(Color.White)
@@ -30,6 +31,6 @@ fun TimeHolder(timeRange:String) {
 
 	) {
 		Text("Удобное для вас время доставки")
-		TimeItem(timeRange,false, modifier = Modifier.fillMaxWidth()) { }
+		TimeItem(timeRange,false, modifier = Modifier.fillMaxWidth(),onClick=onClick)
 	}
 }
