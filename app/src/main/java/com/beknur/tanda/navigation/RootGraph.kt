@@ -1,6 +1,5 @@
-package com.beknur.sausaq.navigation
+package com.beknur.tanda.navigation
 
-import AuthScreen
 import AuthScreenRoute
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,15 +12,12 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.beknur.about_app.AboutAppScreen
-import com.beknur.address.AddressScreen
 import com.beknur.address.AddressScreenRoute
 import com.beknur.address.AddressViewModel
 import com.beknur.auth.AuthViewModel
 import com.beknur.cards.CardsScreen
-import com.beknur.cart.CartScreen
 import com.beknur.cart.CartScreenRoute
 import com.beknur.cart.CartViewModel
-import com.beknur.catalog.CatalogScreen
 import com.beknur.catalog.CatalogScreenRoute
 import com.beknur.catalog.CatalogViewModel
 import com.beknur.favorites.FavoritesScreen
@@ -32,22 +28,16 @@ import com.beknur.notifications.NotificationScreen
 import com.beknur.orders.OrdersScreen
 import com.beknur.payment.PaymentScreenRoute
 import com.beknur.payment.PaymentViewModel
-import com.beknur.product.ProductScreen
 import com.beknur.product.ProductScreenRoute
 import com.beknur.product.ProductViewModel
 import com.beknur.productdetail.ProductDetailRoute
-import com.beknur.productdetail.ProductDetailScreen
 import com.beknur.productdetail.ProductDetailViewModel
-import com.beknur.profile.ProfileScreen
 import com.beknur.profile.ProfileScreenRoute
 import com.beknur.profile.ProfileViewModel
-import com.beknur.sausaq.MainViewModel
+import com.beknur.tanda.MainViewModel
 import com.beknur.search.SearchScreen
-import com.beknur.searchmap.SearchMapScreen
 import com.beknur.support.SupportScreen
 import org.koin.androidx.compose.koinViewModel
-
-import java.util.Map.entry
 
 @Composable
 fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager,mainViewModel : MainViewModel){

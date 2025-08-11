@@ -1,4 +1,4 @@
-package com.beknur.sausaq
+package com.beknur.tanda
 
 import org.junit.Test
 

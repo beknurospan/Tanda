@@ -1,4 +1,4 @@
-package com.beknur.sausaq
+package com.beknur.tanda
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
