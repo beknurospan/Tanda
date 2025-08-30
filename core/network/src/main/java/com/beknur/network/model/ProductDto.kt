@@ -39,3 +39,15 @@ data class ProductDto(
 	@SerialName("price_per_one")
 	val pricePerOne: Int,
 )
+
+@Serializable
+data class ProductCategoryDto(
+	val productId:Int,
+	val skuId: Int,
+	val price: Int,
+	val sizes:List<Int>,
+	val rating: Double,
+	val name:String,
+	val img:String,
+	val brandName: String
+)

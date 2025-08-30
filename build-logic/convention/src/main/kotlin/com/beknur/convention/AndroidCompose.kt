@@ -16,6 +16,7 @@ internal fun Project.configureAndroidCompose(
 	commonExtension.apply {
 		buildFeatures {
 			compose = true
+			buildConfig = true
 		}
 
 		val libs=extensions.getByType<VersionCatalogsExtension>().named("libs")

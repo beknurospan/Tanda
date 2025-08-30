@@ -28,7 +28,7 @@ import com.beknur.notifications.NotificationScreen
 import com.beknur.orders.OrdersScreen
 import com.beknur.payment.PaymentScreenRoute
 import com.beknur.payment.PaymentViewModel
-import com.beknur.product.ProductScreenRoute
+import com.beknur.product.screens.ProductScreenRoute
 import com.beknur.product.ProductViewModel
 import com.beknur.productdetail.ProductDetailRoute
 import com.beknur.productdetail.ProductDetailViewModel

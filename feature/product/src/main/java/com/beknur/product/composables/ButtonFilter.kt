@@ -2,6 +2,7 @@ package com.beknur.product.composables
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -32,12 +33,14 @@ import com.beknur.designsystem.R
 fun ButtonFilter(
 	modifier: Modifier=Modifier,
 	text:String,
-	@DrawableRes imgRes:Int
+	@DrawableRes imgRes:Int,
+	onClick:()->Unit
 ) {
 	Row(
 		modifier = modifier
 			.height(30.dp)
 			.clip(RoundedCornerShape(2.dp))
+			.clickable{onClick.invoke()}
 			.border(1.dp, Color.Black, shape = RoundedCornerShape(2.dp)),
 		verticalAlignment =Alignment.CenterVertically
 	) {
