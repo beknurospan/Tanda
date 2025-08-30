@@ -25,8 +25,6 @@ class ProductDetailViewModel(
 
 	}
 	fun onProductSelected(){
-		viewModelScope.launch {
-			navigationManager.navigate(Screen.ProductDetail)
-		}
+
 	}
 }

@@ -1,5 +1,6 @@
 package com.beknur.designsystem.ui
 
+import android.R.attr.onClick
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,7 +37,14 @@ import com.beknur.designsystem.theme.WhiteGray
 
 
 @Composable
-fun ProductDetailCard(onClick: () -> Unit) {
+fun ProductDetailCard(
+	rating: String,
+	brandName: String,
+	name: String,
+	price: String,
+	image: String ,
+	onClick: () -> Unit
+) {
 	Column(
 		verticalArrangement = Arrangement.spacedBy(5.dp),
 		modifier = Modifier
@@ -58,7 +66,7 @@ fun ProductDetailCard(onClick: () -> Unit) {
 		) {
 
 			AsyncImage(
-				model = "https://www.pngplay.com/wp-content/uploads/12/Running-Shoes-PNG-Clip-Art-HD-Quality.png",
+				model = image,
 				contentDescription = null,
 				contentScale = ContentScale.Fit,
 				modifier = Modifier
@@ -79,7 +87,7 @@ fun ProductDetailCard(onClick: () -> Unit) {
 					modifier = Modifier.size(15.dp)
 				)
 				Spacer(modifier = Modifier.width(5.dp))
-				Text("4.9", style = MaterialTheme.typography.bodySmall)
+				Text(rating, style = MaterialTheme.typography.bodySmall)
 			}
 
 		}
@@ -87,14 +95,20 @@ fun ProductDetailCard(onClick: () -> Unit) {
 			thickness = 1.dp,
 			color = Color.Black
 		)
-		Text("Brand")
-		Text("Имя Товара")
-		CostButton("32000")
+		Text(brandName)
+		Text(name)
+		CostButton(price)
 	}
 }
 
 @Preview
 @Composable
 fun ProductDetailCardPreview() {
-	ProductDetailCard { }
+	ProductDetailCard(
+		"4.5",
+		"Nike",
+		"Кроссовки",
+		"$120",
+		"",
+		{})
 }

@@ -32,7 +32,7 @@ sealed class Screen: NavKey {
 	@Serializable
 	data object Offer : Screen()
 	@Serializable
-	data object ProductDetail : Screen()
+	data class ProductDetail(val product:Int,val skuId:Int) : Screen()
 	@Serializable
 	data object Notifications : Screen()
 	@Serializable

@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
 	alias(libs.plugins.com.beknur.application)
 	alias(libs.plugins.com.beknur.application.compose)
+
 	alias(libs.plugins.kotlin.android)
 	alias(libs.plugins.kotlin.compose)
 	alias(libs.plugins.kotlin.serialization)
@@ -27,8 +28,8 @@ android {
 		versionName = "1.0"
 
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+		buildConfigField("String", "VERSION_NAME", "\"${versionName}\"")
 	}
-
 
 	buildTypes {
 		release {
@@ -38,13 +39,19 @@ android {
 				getDefaultProguardFile("proguard-android-optimize.txt"),
 				"proguard-rules.pro"
 			)
+			buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
+		}
+		debug {
+			buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
 		}
 	}
+
 	compileOptions {
 		sourceCompatibility = JavaVersion.VERSION_11
 		targetCompatibility = JavaVersion.VERSION_11
 	}
 	buildFeatures {
+		buildConfig = true
 		compose = true
 	}
 }

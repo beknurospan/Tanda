@@ -53,12 +53,20 @@ fun ProductItem() {
 	LazyVerticalGrid(
 		modifier = Modifier.fillMaxSize(),
 		columns = GridCells.Fixed(2),
-		contentPadding = PaddingValues(horizontal = 10.dp, vertical =20.dp ),
+		contentPadding = PaddingValues(horizontal = 10.dp, vertical = 20.dp),
 		horizontalArrangement = Arrangement.spacedBy(10.dp),
 		verticalArrangement = Arrangement.spacedBy(10.dp)
 	) {
 		items(2) { photo ->
-			ProductDetailCard {  }
+			ProductDetailCard(
+				"",
+				"",
+				"",
+				image = "",
+				price = "",
+			){
+
+			}
 		}
 	}
 }
