@@ -18,6 +18,17 @@ data class ProductVariantDto(
 	val size: Int,
 )
 
+data class Product(
+	val productId: Int,
+	val skuId: Int,
+	val price: Double,
+	val size:Int,
+	val rating: Double,
+	val name: String,
+	val brandName: String,
+	val img: String
+)
+
 
 @Serializable
 data class ProductDto(
@@ -27,24 +38,30 @@ data class ProductDto(
 	@SerialName("sku_id")
 	val skuId: Int,
 
-	@SerialName("detail_text")
-	val detailText: String,
-
 	@SerialName("brand_name")
 	val brandName: String,
 
+	@SerialName("name")
+	val name: String,
+
 	@SerialName("size")
-	val size: String,
+	val size: Int,
+
+	@SerialName("image")
+	val image: String,
 
 	@SerialName("price_per_one")
-	val pricePerOne: Int,
+	val pricePerOne: Double,
+
+	@SerialName("rating")
+	val rating: Double
 )
 
 @Serializable
 data class ProductCategoryDto(
 	val productId:Int,
 	val skuId: Int,
-	val price: Int,
+	val price: Double,
 	val sizes:List<Int>,
 	val rating: Double,
 	val name:String,

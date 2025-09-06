@@ -1,8 +1,10 @@
 package com.beknur.network.api
 
 
+import android.util.Log
 import com.beknur.network.model.FilterParamsDto
 import com.beknur.network.model.ProductCategoryDto
+import com.beknur.network.model.ProductDetailDto
 import com.beknur.network.model.ProductDto
 import com.beknur.network.model.ProductTypesDto
 import io.ktor.client.HttpClient
@@ -20,6 +22,7 @@ interface ProductApi {
 	suspend fun getProduct(id:Int,skuId: Int): ProductDto
 	suspend fun getProductsByCategory(productCategory: String):List<ProductCategoryDto>
 	suspend fun getFiltersForCategory(filterCategory: String):FilterParamsDto
+	suspend fun getProductDetail(id: Int,skuId: Int): ProductDetailDto
 }
 
 
@@ -64,6 +67,21 @@ class ProductApiImpl(private val client: HttpClient) : ProductApi {
 		}.body()
 		return response
 	}
+
+	override suspend fun getProductDetail(
+		id: Int,
+		skuId: Int
+	): ProductDetailDto {
+		val response: ProductDetailDto =client.get {
+			url{
+				encodedPath="products/detail"
+			}
+			parameter("id",id)
+			parameter("sku_id",skuId)
+		}.body()
+		return response
+	}
+
 
 }
 

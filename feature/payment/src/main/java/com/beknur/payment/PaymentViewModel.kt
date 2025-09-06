@@ -5,7 +5,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.beknur.domain.model.Address
+import com.beknur.domain.repository.CartRepository
 import com.beknur.domain.repository.UserDataRepository
+import com.beknur.domain.util.Resource
 import com.beknur.navigation.NavigationManager
 import com.beknur.navigation.Screen
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +17,8 @@ import kotlinx.coroutines.launch
 
 class PaymentViewModel(
 	private val navigationManager: NavigationManager,
-	private val userDataRepository: UserDataRepository
+	private val userDataRepository: UserDataRepository,
+	private val cartRepository: CartRepository
 ) : ViewModel() {
 
 	private val _viewState = MutableStateFlow(
@@ -25,22 +28,37 @@ class PaymentViewModel(
 				apartment = "",
 				entrance = "",
 				floor = ""
-			), additionalAddressInfo = ""
+			), additionalAddressInfo = "",
+			totalPrice = ""
 		)
 	)
 	val viewState = _viewState.asStateFlow()
 
 	init {
 		viewModelScope.launch {
-			userDataRepository.getUserData().collect { userData ->
-				_viewState.update {
-					it.copy(
-						name = userData.userName,
-						time = userData.suitableTimeDelivery,
-						chosenAddress = userData.chosenAddress,
-					)
+			launch {
+				userDataRepository.getUserData().collect { userData ->
+					_viewState.update {
+						it.copy(
+							name = userData.userName,
+							time = userData.suitableTimeDelivery,
+							chosenAddress = userData.chosenAddress,
+						)
+					}
 				}
 			}
+			launch {
+				val res=cartRepository.getTotalCartPrice()
+				when(res){
+					is Resource.Error -> {}
+					is Resource.Success<*> -> {
+						_viewState.update {
+							it.copy(totalPrice = res.data.toString())
+						}
+					}
+				}
+			}
+
 		}
 	}
 
@@ -55,6 +73,7 @@ class PaymentViewModel(
 			is PaymentUiEvent.OnSaveNameClick -> onSaveNameClick(event.name)
 			is PaymentUiEvent.OnSaveTimeClick -> onSaveTimeClick(event.time)
 			is PaymentUiEvent.OnAdditionalInfoChange -> onAdditionalInfoChange(event.info)
+			is PaymentUiEvent.OnPayment -> {}
 		}
 	}
 
@@ -64,6 +83,8 @@ class PaymentViewModel(
 			it.copy(additionalAddressInfo = info)
 		}
 	}
+
+
 
 	private fun onSaveTimeClick(time: String) {
 		viewModelScope.launch {

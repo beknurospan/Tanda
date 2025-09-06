@@ -68,7 +68,7 @@ fun PaymentScreen(viewState: PaymentViewState, sendUiEvent: (PaymentUiEvent) -> 
 			)
 			CardHolder() { sendUiEvent(PaymentUiEvent.OnAddCardClick) }
 			AmountToPay(
-				"8777"
+				viewState.totalPrice
 			)
 
 		}
@@ -79,7 +79,9 @@ fun PaymentScreen(viewState: PaymentViewState, sendUiEvent: (PaymentUiEvent) -> 
 				.align(Alignment.BottomCenter),
 			verticalArrangement = Arrangement.Center
 		) {
-			TndButton(isEnabled = true, {}, "Оплатить", modifier = Modifier.fillMaxWidth())
+			TndButton(isEnabled = true, {
+
+			}, "Оплатить", modifier = Modifier.fillMaxWidth())
 
 		}
 		if (viewState.showBottomSheet) {
@@ -122,5 +124,6 @@ fun PaymentScreenPreview() {
 			name = "",
 			time = "TODO()",
 			showBottomSheet = false,
+			totalPrice = "",
 		), {})
 }

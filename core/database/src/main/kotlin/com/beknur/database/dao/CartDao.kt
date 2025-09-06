@@ -42,5 +42,7 @@ interface CartDao {
 			insertCartEntity(cartEntity)
 		}
 	}
+	@Query("SELECT * FROM cart WHERE isSelected = 1")
+	suspend fun getSelectedCartItems(): List<CartEntity>
 
 }

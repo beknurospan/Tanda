@@ -1,27 +1,59 @@
 package com.beknur.data.mappers
 
-import android.util.Log.e
 import com.beknur.database.model.AddressEntity
 import com.beknur.database.model.CartEntity
+import com.beknur.database.model.FavoriteEntity
 import com.beknur.domain.model.Address
 import com.beknur.domain.model.CartProduct
+import com.beknur.domain.model.Characteristic
+import com.beknur.domain.model.Favorite
 import com.beknur.domain.model.FilterAttribute
 import com.beknur.domain.model.FilterParams
 import com.beknur.domain.model.MySearchResult
+import com.beknur.domain.model.OtherColor
 import com.beknur.domain.model.Params
 import com.beknur.domain.model.PriceRange
 import com.beknur.domain.model.Product
+import com.beknur.domain.model.ProductCategory
+import com.beknur.domain.model.ProductDetail
 import com.beknur.domain.model.ProductType
 import com.beknur.domain.model.ProductVariants
+import com.beknur.domain.model.SizeItem
+import com.beknur.network.model.CharacteristicDto
 import com.beknur.network.model.FilterAttributeDto
 import com.beknur.network.model.FilterParamsDto
 import com.beknur.network.model.MySearchResultDto
+import com.beknur.network.model.OtherColorDto
 import com.beknur.network.model.ParamDto
 import com.beknur.network.model.PriceRangeDto
 import com.beknur.network.model.ProductCategoryDto
+import com.beknur.network.model.ProductDetailDto
 import com.beknur.network.model.ProductDto
 import com.beknur.network.model.ProductTypesDto
 import com.beknur.network.model.ProductVariantDto
+import com.beknur.network.model.SizeItemDto
+
+fun ProductDto.toProduct()=
+	Product(
+		productId = productId,
+		skuId = skuId,
+		price = pricePerOne,
+		size = size,
+		rating = rating,
+		name = name,
+		img = image,
+		brandName = brandName
+	)
+
+fun ProductDetail.toFavoriteEntity()=
+	FavoriteEntity(
+		productId = productId,
+		name = name,
+		brandName = brandName,
+		sizes = sizes.map { it.size },
+		price = price,
+		img = imageList.first()
+	)
 
 fun CartEntity.toCartProduct()=
 	CartProduct(
@@ -61,10 +93,20 @@ fun ProductDto.toCartProduct()=
 		isSelected = true,
 		productId = productId,
 		skuId = skuId,
-		detailText = detailText,
+		detailText = name,
 		brandName = brandName,
-		size = size,
-		pricePerOne = pricePerOne
+		size = size.toString(),
+		pricePerOne = pricePerOne.toInt()
+	)
+fun Product.toCartProduct()=
+	CartProduct(
+		isSelected = true,
+		productId = productId,
+		skuId = skuId,
+		detailText = name,
+		brandName = brandName,
+		size = size.toString(),
+		pricePerOne = price.toInt()
 	)
 fun MySearchResultDto.toMySearchResult()=
 	MySearchResult(
@@ -88,8 +130,8 @@ fun Address.toAddressEntity()=
 		entrance = entrance,
 		floor = floor
 	)
-fun ProductCategoryDto.toProduct()=
-	Product(
+fun ProductCategoryDto.toProductCategory()=
+	ProductCategory(
 		productId = productId,
 		skuId = skuId,
 		price = price,
@@ -146,4 +188,64 @@ fun PriceRange.toPriceRangeDto()=
 	PriceRangeDto(
 		min = min,
 		max = max
+	)
+
+fun OtherColorDto.toOtherColor()=
+	OtherColor(
+		color = colorName,
+		image = imageUrl
+	)
+fun CharacteristicDto.toCharacteristic()=
+	Characteristic(
+		id = characteristicId,
+		name = characteristicName,
+		definition = characteristicValue
+	)
+
+fun SizeItemDto.toSizeItem()=
+	SizeItem(
+		size = size,
+		isAvailable = isAvailable,
+		count = count,
+		skuId=skuId
+	)
+fun ProductDetailDto.toProductDetail()=
+	ProductDetail(
+		productId =productId,
+		price = price,
+		sizes = sizes.map { it.toSizeItem() },
+		rating = rating,
+		name = name,
+		brandName = brandName,
+		imageList = imageList,
+		isFavorite = isFavorite,
+		otherColors = otherColors.map { it.toOtherColor() },
+		characteristics = characteristics.map { it.toCharacteristic() }
+	)
+fun FavoriteEntity.toFavorite()=
+	Favorite(
+		productId = productId,
+		name = name,
+		brandName = brandName,
+		sizes = sizes,
+		price = price,
+		img = img
+	)
+fun ProductDetail.toFavorite()=
+	Favorite(
+		productId = productId,
+		name = name,
+		brandName = brandName,
+		sizes = sizes.map { it.size },
+		price = price,
+		img = imageList.first()
+	)
+fun Favorite.toFavoriteEntity()=
+	FavoriteEntity(
+		productId = productId,
+		name = name,
+		brandName = brandName,
+		sizes = sizes,
+		price = price,
+		img = img
 	)

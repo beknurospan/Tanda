@@ -10,7 +10,12 @@ android {
 	namespace = "com.beknur.database"
 }
 
+ksp {
+	arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 dependencies {
+	implementation(libs.gson)
 	implementation(libs.room.runtime)
 	implementation(libs.room.ktx)
 	ksp(libs.room.compiler)

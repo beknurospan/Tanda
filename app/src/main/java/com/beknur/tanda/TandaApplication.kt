@@ -16,6 +16,7 @@ import com.beknur.profile.di.ProfileModule
 import com.beknur.tanda.di.AppModule
 import com.beknur.data.di.DataModule
 import com.beknur.datastore.di.DataStoreModule
+import com.beknur.favorites.di.FavoriteModule
 import com.beknur.network.NetworkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
@@ -44,7 +45,8 @@ class TandaApplication:Application() {
 					DispatchersModule,
 					DataModule,
 					NetworkModule,
-					DataStoreModule
+					DataStoreModule,
+					FavoriteModule
 				)
 			)
 		}

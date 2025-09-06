@@ -3,6 +3,7 @@ package com.beknur.productdetail.composables
 import android.graphics.drawable.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -19,10 +20,13 @@ fun ReviewsItem(rating:String) {
 	CardWhite {
 		Row(modifier = Modifier
 			.fillMaxWidth()
-			.padding(5.dp)) {
-
+			.padding(5.dp)
+		) {
+			Text("Рейтинг товара   "+rating)
+			Spacer(modifier = Modifier.weight(1f))
+			Text("Отзывы ->")
 		}
-		Text(rating)
+
 	}
 }
 

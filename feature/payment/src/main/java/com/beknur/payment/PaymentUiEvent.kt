@@ -9,4 +9,5 @@ sealed interface PaymentUiEvent {
 	data class OnSaveNameClick(val name: String):PaymentUiEvent
 	data class OnSaveTimeClick(val time: String):PaymentUiEvent
 	data class OnAdditionalInfoChange(val info: String): PaymentUiEvent
+	data class OnPayment(val totalPrice: Double):PaymentUiEvent
 }

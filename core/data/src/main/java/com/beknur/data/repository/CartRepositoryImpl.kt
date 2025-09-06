@@ -1,19 +1,17 @@
 package com.beknur.data.repository
 
 
-import android.util.Log
 import com.beknur.data.mappers.toCartEntity
 import com.beknur.data.mappers.toCartProduct
 import com.beknur.data.mappers.toProductType
 import com.beknur.database.dao.CartDao
 import com.beknur.domain.model.CartProduct
+import com.beknur.domain.model.Product
 import com.beknur.domain.model.ProductType
 import com.beknur.domain.repository.CartRepository
+import com.beknur.domain.util.Resource
 import com.beknur.network.api.ProductApi
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 
@@ -48,14 +46,33 @@ class CartRepositoryImpl(
 		return productApi.getProductType(id).toProductType()
 	}
 
-	override suspend fun getProduct(id: Int, skuId: Int): Flow<CartProduct> {
-		return flow {
-			emit(productApi.getProduct(id = id, skuId = skuId).toCartProduct())
-		}.flowOn(Dispatchers.IO)
+	override suspend fun getProduct(id: Int, skuId: Int): Resource<CartProduct> {
+		return try {
+			val resource=productApi.getProduct(id, skuId).toCartProduct()
+			Resource.Success(resource)
+		} catch (e: Exception) {
+			Resource.Error(e)
+		}
 	}
 
-	override suspend fun insertOrAdd(product: CartProduct) {
-		cartDao.addOrIncrement(product.toCartEntity())
+	override suspend fun insertOrAdd(product: Product) {
+		val cartProduct=product.toCartProduct()
+		cartDao.addOrIncrement(cartProduct.toCartEntity())
+	}
+
+	override suspend fun getTotalCartPrice(): Resource<Double> {
+
+		return try {
+			var totalPrice=0
+			val selectedCartItems=cartDao.getSelectedCartItems()
+			selectedCartItems.forEach { cartProduct ->
+				totalPrice=cartProduct.pricePerOne*cartProduct.count
+			}
+			Resource.Success(totalPrice.toDouble())
+		} catch (e: Exception) {
+			Resource.Error(Exception(e))
+		}
+
 	}
 
 }
