@@ -4,6 +4,7 @@ import androidx.room.Room
 import com.beknur.database.TndDatabase
 import com.beknur.database.dao.AddressDao
 import com.beknur.database.dao.CartDao
+import com.beknur.database.dao.FavoriteDao
 import org.koin.dsl.module
 
 val DatabaseModule = module {
@@ -18,4 +19,5 @@ val DatabaseModule = module {
 
 	single<CartDao> { get<TndDatabase>().cartDao() }
 	single<AddressDao> { get<TndDatabase>().addressDao() }
+	single<FavoriteDao> { get<TndDatabase>().favoriteDao() }
 }

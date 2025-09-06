@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.beknur.product.SortType
 
 
 @Preview
@@ -22,9 +23,7 @@ import androidx.compose.ui.unit.dp
 fun SortDialogPreview() {
 	SortDialog(
 		onDismiss = {},
-		onDelete = {},
-		onEdit = {},
-		onMakePrimary = {}
+		onTypeClicked = {},
 	)
 }
 
@@ -32,13 +31,11 @@ fun SortDialogPreview() {
 @Composable
 fun SortDialog(
 	onDismiss: () -> Unit,
-	onDelete: () -> Unit,
-	onEdit: () -> Unit,
-	onMakePrimary: () -> Unit
+	onTypeClicked: (SortType) -> Unit,
 ) {
 	AlertDialog(
+		containerColor = Color.Transparent,
 		onDismissRequest = onDismiss,
-		title = { Text("Выберите действие") },
 		text = {
 			Column(
 				verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -49,49 +46,31 @@ fun SortDialog(
 				) {
 					Column {
 						TextButton(
-							onClick = {
-								onMakePrimary()
-							},
+							onClick = {onTypeClicked.invoke(SortType.NEWEST)},
 							modifier = Modifier.fillMaxWidth()
 						) {
 							Text("По новизне")
 						}
 						HorizontalDivider()
 						TextButton(
-							onClick = {
-								onEdit()
-							},
+							onClick = {onTypeClicked.invoke(SortType.PRICE_ASC)},
 							modifier = Modifier.fillMaxWidth()
 						) {
 							Text("Cначала дешёвые")
 						}
 						HorizontalDivider()
 						TextButton(
-							onClick = {
-								onEdit()
-							},
+							onClick = {onTypeClicked.invoke(SortType.PRICE_DESC)},
 							modifier = Modifier.fillMaxWidth()
 						) {
 							Text("Сначала дорогие")
 						}
 						HorizontalDivider()
 						TextButton(
-							onClick = {
-								onEdit()
-							},
+							onClick = {onTypeClicked.invoke(SortType.RATING)},
 							modifier = Modifier.fillMaxWidth()
 						) {
 							Text("По рейтингу")
-						}
-						HorizontalDivider()
-
-						TextButton(
-							onClick = {
-								onDelete()
-							},
-							modifier = Modifier.fillMaxWidth()
-						) {
-							Text("Удалить", color = Color.Red)
 						}
 					}
 				}

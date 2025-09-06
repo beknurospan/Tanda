@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,26 +21,22 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.beknur.designsystem.R
-import com.beknur.productdetail.data.SizeItem
+import com.beknur.domain.model.SizeItem
+
 
 @Composable
-fun HeartRating(rating: Double, max: Int = 5) {
-	val sizes = listOf(
-		SizeItem(35, true),
-		SizeItem(36, true),
-		SizeItem(37, true, count = 1),
-		SizeItem(38, true),
-		SizeItem(39, true),
-		SizeItem(40, true),
-		SizeItem(41, true),
-		SizeItem(42, true),
-		SizeItem(43, true),
-		SizeItem(44, true),
-		SizeItem(45, true),
-		SizeItem(46, true)
-	)
-
-
+fun HeartRating(
+	rating: Double,
+	max: Int = 5,
+	sizes:List<SizeItem>,
+	onSizeSelected: (Int) -> Unit,
+	onHeartClick: () -> Unit,
+	isFavorite: Boolean,
+	name: String,
+	brandName: String,
+	price: String,
+	selectedSize: Int?
+) {
 	Column(
 		verticalArrangement = Arrangement.spacedBy(8.dp)
 
@@ -68,29 +65,47 @@ fun HeartRating(rating: Double, max: Int = 5) {
 			Spacer(modifier = Modifier.width(10.dp))
 			Text("Рейтинг $rating")
 			Spacer(modifier = Modifier.weight(1f))
-			Icon(
-				imageVector = ImageVector.vectorResource(R.drawable.shopicons_regular_heart),
-				contentDescription = null,
-				modifier = Modifier.size(40.dp)
-			)
+			IconButton(onClick = onHeartClick) {
+				when(isFavorite){
+					false-> {
+						Icon(
+							imageVector = ImageVector.vectorResource(R.drawable.shopicons_regular_heart),
+							contentDescription = null,
+							tint = Color.Unspecified,
+							modifier = Modifier.size(40.dp)
+						)
+					}
+					true-> {
+						Icon(
+							imageVector = ImageVector.vectorResource(R.drawable.heart_filled),
+							contentDescription = null,
+							tint = Color.Unspecified,
+							modifier = Modifier.size(40.dp)
+						)
+					}
+				}
+
+
+			}
+
 
 
 		}
 		Text(
-			"Dino Ricci Select",
+			brandName,
 			style = MaterialTheme.typography.bodyLarge
 		)
 		Text(
-			"Ботильоны",
+			name,
 			style = MaterialTheme.typography.bodySmall
 		)
-		Text("26000 KZT", style = MaterialTheme.typography.bodyLarge)
+		Text("$price KZT", style = MaterialTheme.typography.bodyLarge)
 		Spacer(modifier = Modifier.height(40.dp))
 		Box(
 			modifier = Modifier.fillMaxWidth(),
 			contentAlignment = Alignment.TopStart
 		) {
-			SizeGrid(sizes = sizes, 2) { }
+			SizeGrid(sizes = sizes, selectedSize = selectedSize, onSizeSelected = onSizeSelected)
 		}
 	}
 }

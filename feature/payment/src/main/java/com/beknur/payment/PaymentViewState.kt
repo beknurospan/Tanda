@@ -8,5 +8,6 @@ data class PaymentViewState(
 	val showBottomSheet: Boolean,
 	val chosenAddress: Address,
 	val additionalAddressInfo: String,
-	val sheetType: SheetType
+	val sheetType: SheetType,
+	val totalPrice: String
 )

@@ -2,7 +2,11 @@ package com.beknur.cart
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.beknur.domain.model.CartProduct
+import com.beknur.domain.model.Product
 import com.beknur.domain.repository.CartRepository
+import com.beknur.domain.repository.ProductRepository
+import com.beknur.domain.util.Resource
 import com.beknur.navigation.NavigationManager
 import com.beknur.navigation.Screen
 import kotlinx.coroutines.delay
@@ -15,7 +19,8 @@ import kotlinx.coroutines.launch
 
 class CartViewModel(
 	private val navigationManager: NavigationManager,
-	private val cartRepository: CartRepository
+	private val cartRepository: CartRepository,
+	private val productRepository: ProductRepository
 ) : ViewModel(
 ) {
 
@@ -126,8 +131,15 @@ class CartViewModel(
 			_viewState.update {
 				it.copy(showBottomSheet = false, productVariants = Loadable.Idle)
 			}
-			val product = cartRepository.getProduct(id, skuId).first()
-			cartRepository.insertOrAdd(product)
+			val resource = productRepository.getProduct(id, skuId)
+			when(resource) {
+				is Resource.Error -> {}
+				is Resource.Success<Product> -> {
+					val cartProduct = resource.data
+					cartRepository.insertOrAdd(cartProduct)
+				}
+			}
+
 
 		}
 	}

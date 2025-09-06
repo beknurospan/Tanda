@@ -20,6 +20,8 @@ import com.beknur.cart.CartScreenRoute
 import com.beknur.cart.CartViewModel
 import com.beknur.catalog.CatalogScreenRoute
 import com.beknur.catalog.CatalogViewModel
+import com.beknur.favorites.FavoriteScreenRoute
+import com.beknur.favorites.FavoriteViewModel
 import com.beknur.favorites.FavoritesScreen
 import com.beknur.navigation.NavigationCommand
 import com.beknur.navigation.NavigationManager
@@ -28,16 +30,17 @@ import com.beknur.notifications.NotificationScreen
 import com.beknur.orders.OrdersScreen
 import com.beknur.payment.PaymentScreenRoute
 import com.beknur.payment.PaymentViewModel
-import com.beknur.product.screens.ProductScreenRoute
 import com.beknur.product.ProductViewModel
+import com.beknur.product.screens.ProductScreenRoute
 import com.beknur.productdetail.ProductDetailRoute
 import com.beknur.productdetail.ProductDetailViewModel
 import com.beknur.profile.ProfileScreenRoute
 import com.beknur.profile.ProfileViewModel
-import com.beknur.tanda.MainViewModel
 import com.beknur.search.SearchScreen
 import com.beknur.support.SupportScreen
+import com.beknur.tanda.MainViewModel
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager,mainViewModel : MainViewModel){
@@ -73,7 +76,10 @@ fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager,mainV
 					SearchScreen()
 				}
 				entry<Screen.Offer> {}
-				entry<Screen.Favorites> { FavoritesScreen() }
+				entry<Screen.Favorites> {
+					val viewModel = koinViewModel<FavoriteViewModel>()
+					FavoriteScreenRoute(viewModel)
+				}
 				entry<Screen.Catalog> {
 					val viewModel = koinViewModel<CatalogViewModel>()
 					CatalogScreenRoute(viewModel)
@@ -86,9 +92,13 @@ fun RootGraph(backStack: NavBackStack,navigationManager: NavigationManager,mainV
 					val viewModel= koinViewModel<CartViewModel>()
 					CartScreenRoute(viewModel)
 				}
-				entry<Screen.ProductDetail> {
-					val viewModel = koinViewModel<ProductDetailViewModel>()
-					ProductDetailRoute(viewModel)
+				entry<Screen.ProductDetail> { entry ->
+					val id = entry.product
+					val skuId = entry.skuId
+
+					val viewModel = koinViewModel<ProductDetailViewModel> { parametersOf(id, skuId) }
+
+					ProductDetailRoute(viewModel = viewModel)
 				}
 				entry<Screen.Checkout> {}
 				entry<Screen.Profile> {

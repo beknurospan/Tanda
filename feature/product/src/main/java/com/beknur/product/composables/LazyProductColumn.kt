@@ -10,9 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import com.beknur.designsystem.ui.ProductDetailCard
 import com.beknur.domain.model.Product
+import com.beknur.domain.model.ProductCategory
 
 @Composable
-fun LazyProductColumn(products: List<Product>, onClick: (productId:Int,skuId:Int) -> Unit) {
+fun LazyProductColumn(products: List<ProductCategory>, onClick: (productId:Int, skuId:Int) -> Unit) {
 	LazyVerticalGrid(
 		columns = GridCells.Fixed(2),
 		contentPadding = PaddingValues(12.dp),
@@ -40,10 +41,10 @@ fun LazyProductColumn(products: List<Product>, onClick: (productId:Int,skuId:Int
 fun LazyProductColumnPreview() {
 	LazyProductColumn(
 		listOf(
-			Product(
+			ProductCategory(
 				1,
 				5,
-				5,
+				5.0,
 				listOf(1, 5, 6),
 				4.7,
 				"Кроссовки",

@@ -1,3 +1,7 @@
 package com.beknur.favorites
 
-data class FavoriteViewState(val data:String)
+import com.beknur.domain.model.Favorite
+
+data class FavoriteViewState(
+	val favorites:List<Favorite> = emptyList()
+)

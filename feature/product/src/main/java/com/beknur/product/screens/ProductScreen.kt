@@ -1,6 +1,7 @@
 package com.beknur.product.screens
 
 import FilterScreen
+import android.R.attr.type
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.beknur.domain.model.FilterParams
 import com.beknur.domain.model.Product
+import com.beknur.domain.model.ProductCategory
 import com.beknur.domain.util.Loadable
 import com.beknur.product.ProductUiEvent
 import com.beknur.product.ProductViewModel
@@ -37,6 +39,7 @@ import com.beknur.product.ProductViewState
 import com.beknur.product.SelectedFilters
 import com.beknur.product.composables.ButtonFilter
 import com.beknur.product.composables.LazyProductColumn
+import com.beknur.product.composables.SortDialog
 import com.beknur.product.composables.TopBar
 import com.beknur.designsystem.R as coreR
 
@@ -97,7 +100,7 @@ fun ProductScreen(
 		if (viewState.showBottomSheet) {
 			ModalBottomSheet(
 				sheetState = sheetState,
-				onDismissRequest = {sendUiEvent(ProductUiEvent.OnDissmiss)}
+				onDismissRequest = {sendUiEvent(ProductUiEvent.OnDissmissModalBottomSheet)}
 			) {
 				when (viewState.filterParams) {
 					is Loadable.Error -> {}
@@ -119,7 +122,14 @@ fun ProductScreen(
 			}
 		}
 		if (viewState.showSortDialog){
-
+			SortDialog(
+				onDismiss = {
+					sendUiEvent(ProductUiEvent.OnDissmissSortDialog)
+				},
+				onTypeClicked = { type->
+					sendUiEvent( ProductUiEvent.OnSortDialogTypeClicked(type))
+				},
+			)
 		}
 	}
 }
@@ -131,10 +141,10 @@ fun ProductScreenPreview() {
 	ProductScreen(
 		ProductViewState(
 			products = listOf(
-				Product(
+				ProductCategory(
 					1,
 					5,
-					5,
+					5.0,
 					listOf(1, 5, 6),
 					4.7,
 					"Кроссовки",

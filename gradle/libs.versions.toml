@@ -2,7 +2,7 @@
 
 
 
-agp = "8.12.0"
+agp = "8.12.2"
 coilCompose = "2.7.0"
 datastore = "1.1.7"
 datastorePreferences = "1.1.7"
@@ -11,6 +11,7 @@ firebaseBomVersion = "34.1.0"
 gradle = "8.4.2"
 
 coreKtx = "1.16.0"
+gson = "2.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -119,6 +120,7 @@ firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 firebase-perf = { module = "com.google.firebase:firebase-perf" }
 google-firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 kotlinx-serialization-core-v173 = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCoreVersion" }
 kotlinx-serialization-protobuf = { module = "org.jetbrains.kotlinx:kotlinx-serialization-protobuf", version.ref = "kotlinxSerializationProtobuf" }

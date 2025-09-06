@@ -60,11 +60,19 @@ class ProductViewModel(
 				event.attributeId,
 				event.paramId
 			)
-
-			ProductUiEvent.OnDissmiss -> onDissmiss()
+			ProductUiEvent.OnDissmissModalBottomSheet -> OnDissmissModalBottomSheet()
+			ProductUiEvent.OnDissmissSortDialog ->  onDismissSortDialog()
+			is ProductUiEvent.OnSortDialogTypeClicked -> onSortTypeClicked(event.type)
 		}
 	}
 
+
+	fun onSortTypeClicked(sortType: SortType) {
+
+	}
+	fun onDismissSortDialog() {
+		_viewState.update { it.copy(showSortDialog = false) }
+	}
 
 	fun onSortClicked() {
 		viewModelScope.launch {
@@ -183,7 +191,7 @@ class ProductViewModel(
 	}
 
 
-	fun onDissmiss() {
+	fun OnDissmissModalBottomSheet() {
 		_viewState.update { it.copy(showBottomSheet = false) }
 	}
 }
